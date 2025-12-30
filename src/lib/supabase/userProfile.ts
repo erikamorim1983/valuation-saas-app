@@ -18,7 +18,7 @@ export type UserProfile = {
 
 export type CreateUserProfileData = {
     user_type: UserType;
-    full_name: string;
+    full_name?: string;
     phone?: string;
     company_name?: string;
     specialization?: string;
@@ -75,6 +75,7 @@ export async function createUserProfile(profileData: CreateUserProfileData): Pro
 
     if (error) {
         console.error('Error creating user profile:', error);
+        console.error('Full error details:', JSON.stringify(error, null, 2));
         throw error;
     }
 

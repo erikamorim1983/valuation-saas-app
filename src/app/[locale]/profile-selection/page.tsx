@@ -4,20 +4,39 @@ import { useRouter } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import { Button } from '@/components/ui/Button';
 import { createUserProfile } from '@/lib/supabase/userProfile';
-import { useState } from 'react';
+import { createClient } from '@/lib/supabase/client';
+import { useState, useEffect } from 'react';
 
 export default function ProfileSelectionPage() {
     const router = useRouter();
     const locale = useLocale();
     const t = useTranslations('ProfileSelection');
     const [loading, setLoading] = useState(false);
+    const [checking, setChecking] = useState(true);
+
+    useEffect(() => {
+        const checkAuth = async () => {
+            const supabase = createClient();
+            const { data: { user } } = await supabase.auth.getUser();
+
+            if (!user) {
+                // User not authenticated, redirect to login
+                router.push(`/${locale}/login`);
+                return;
+            }
+
+            setChecking(false);
+        };
+
+        checkAuth();
+    }, [router, locale]);
 
     const handleSelectConsultant = async () => {
         setLoading(true);
         try {
             await createUserProfile({
                 user_type: 'consultant',
-                full_name: '', // Will be filled in onboarding
+                full_name: undefined, // Will be filled in onboarding
                 phone: undefined,
                 company_name: undefined,
                 specialization: undefined,
@@ -36,7 +55,7 @@ export default function ProfileSelectionPage() {
         try {
             await createUserProfile({
                 user_type: 'business_owner',
-                full_name: '', // Will be filled in onboarding
+                full_name: undefined, // Will be filled in onboarding
                 phone: undefined,
                 company_name: undefined,
                 specialization: undefined,
@@ -49,6 +68,17 @@ export default function ProfileSelectionPage() {
             setLoading(false);
         }
     };
+
+    if (checking) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-green-50 dark:from-zinc-900 dark:via-black dark:to-zinc-900">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <p className="text-gray-600 dark:text-gray-400">Checking authentication...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-green-50 dark:from-zinc-900 dark:via-black dark:to-zinc-900 py-12 px-4">

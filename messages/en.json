@@ -485,15 +485,30 @@
         "title": "Consultant Profile Setup",
         "subtitle": "Tell us about your professional practice",
         "fullName": "Full Name",
+        "fullNamePlaceholder": "John Doe",
         "phone": "Phone Number",
+        "phonePlaceholder": "+1 (555) 123-4567",
         "companyName": "Company/Consultancy Name",
+        "companyNamePlaceholder": "Your firm or agency name",
         "companyNameHint": "Optional - Your firm or agency name",
         "specialization": "Specialization",
         "professionalId": "Professional ID",
-        "professionalIdHint": "CNPJ, CRC, CPA, or other professional certification",
+        "professionalIdPlaceholder": "EIN, CPA, CFA, etc.",
+        "professionalIdHint": "EIN, CPA, CFA, or other professional certification",
+        "spec": {
+            "valuation": "Valuation",
+            "ma": "Mergers & Acquisitions (M&A)",
+            "strategy": "Business Strategy",
+            "advisory": "Financial Advisory",
+            "tax": "Tax Planning",
+            "accounting": "Accounting",
+            "consulting": "Business Consulting",
+            "other": "Other"
+        },
         "back": "Back",
         "continue": "Continue to Dashboard",
-        "creating": "Creating Profile..."
+        "creating": "Creating Profile...",
+        "error": "Error creating profile. Please try again."
     },
     "BusinessOwnerOnboarding": {
         "profileTitle": "Owner Profile Setup",

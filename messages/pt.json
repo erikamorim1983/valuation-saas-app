@@ -485,15 +485,30 @@
         "title": "Configuração de Perfil - Consultor",
         "subtitle": "Conte-nos sobre sua prática profissional",
         "fullName": "Nome Completo",
+        "fullNamePlaceholder": "Seu nome completo",
         "phone": "Telefone",
+        "phonePlaceholder": "+55 (11) 99999-9999",
         "companyName": "Nome da Empresa/Consultoria",
+        "companyNamePlaceholder": "Nome da sua consultoria ou empresa",
         "companyNameHint": "Opcional - Nome do seu escritório ou consultoria",
         "specialization": "Especialização",
         "professionalId": "Identificação Profissional",
+        "professionalIdPlaceholder": "CNPJ, CRC, CPA, etc.",
         "professionalIdHint": "CNPJ, CRC, CPA ou outra certificação profissional",
+        "spec": {
+            "valuation": "Valuation",
+            "ma": "Fusões e Aquisições (M&A)",
+            "strategy": "Estratégia de Negócios",
+            "advisory": "Assessoria Financeira",
+            "tax": "Planejamento Tributário",
+            "accounting": "Contabilidade",
+            "consulting": "Consultoria Empresarial",
+            "other": "Outro"
+        },
         "back": "Voltar",
         "continue": "Ir para Dashboard",
-        "creating": "Criando Perfil..."
+        "creating": "Criando Perfil...",
+        "error": "Erro ao criar perfil. Tente novamente."
     },
     "BusinessOwnerOnboarding": {
         "profileTitle": "Configuração de Perfil - Empresário",

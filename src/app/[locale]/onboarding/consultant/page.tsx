@@ -41,7 +41,7 @@ export default function ConsultantOnboardingPage() {
             router.push('/dashboard');
             router.refresh();
         } catch (error) {
-            alert('Erro ao criar perfil. Tente novamente.');
+            alert(t('error'));
             console.error(error);
         } finally {
             setLoading(false);
@@ -73,7 +73,7 @@ export default function ConsultantOnboardingPage() {
                                 type="text"
                                 required
                                 className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white sm:text-sm"
-                                placeholder="Seu nome completo"
+                                placeholder={t('fullNamePlaceholder')}
                                 value={formData.full_name}
                                 onChange={handleChange}
                             />
@@ -88,7 +88,7 @@ export default function ConsultantOnboardingPage() {
                                 name="phone"
                                 type="tel"
                                 className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white sm:text-sm"
-                                placeholder="+55 (11) 99999-9999"
+                                placeholder={t('phonePlaceholder')}
                                 value={formData.phone}
                                 onChange={handleChange}
                             />
@@ -103,7 +103,7 @@ export default function ConsultantOnboardingPage() {
                                 name="company_name"
                                 type="text"
                                 className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white sm:text-sm"
-                                placeholder="Nome da sua consultoria ou empresa"
+                                placeholder={t('companyNamePlaceholder')}
                                 value={formData.company_name}
                                 onChange={handleChange}
                             />
@@ -121,14 +121,14 @@ export default function ConsultantOnboardingPage() {
                                 value={formData.specialization}
                                 onChange={handleChange}
                             >
-                                <option value="Valuation">Valuation</option>
-                                <option value="M&A">Fusões e Aquisições (M&A)</option>
-                                <option value="Business_Strategy">Estratégia de Negócios</option>
-                                <option value="Financial_Advisory">Assessoria Financeira</option>
-                                <option value="Tax_Planning">Planejamento Tributário</option>
-                                <option value="Accounting">Contabilidade</option>
-                                <option value="Business_Consulting">Consultoria Empresarial</option>
-                                <option value="Other">Outro</option>
+                                <option value="Valuation">{t('spec.valuation')}</option>
+                                <option value="M&A">{t('spec.ma')}</option>
+                                <option value="Business_Strategy">{t('spec.strategy')}</option>
+                                <option value="Financial_Advisory">{t('spec.advisory')}</option>
+                                <option value="Tax_Planning">{t('spec.tax')}</option>
+                                <option value="Accounting">{t('spec.accounting')}</option>
+                                <option value="Business_Consulting">{t('spec.consulting')}</option>
+                                <option value="Other">{t('spec.other')}</option>
                             </select>
                         </div>
 
@@ -141,7 +141,7 @@ export default function ConsultantOnboardingPage() {
                                 name="professional_id"
                                 type="text"
                                 className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white sm:text-sm"
-                                placeholder="CNPJ, CRC, CPA, etc."
+                                placeholder={t('professionalIdPlaceholder')}
                                 value={formData.professional_id}
                                 onChange={handleChange}
                             />
