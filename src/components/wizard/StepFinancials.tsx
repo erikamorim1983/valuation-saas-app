@@ -39,9 +39,9 @@ export default function StepFinancials() {
     // Initialize 3 years of history if empty
     const currentYear = new Date().getFullYear();
     const defaultHistory = data.financials.history?.length ? data.financials.history : [
-        { year: currentYear - 3, revenue: 0, ebitda: 0, netIncome: 0, cogs: 0, operatingExpenses: 0, addbacks: 0, ownerAdj: 0, oneTime: 0 },
         { year: currentYear - 2, revenue: 0, ebitda: 0, netIncome: 0, cogs: 0, operatingExpenses: 0, addbacks: 0, ownerAdj: 0, oneTime: 0 },
-        { year: currentYear - 1, revenue: 0, ebitda: 0, netIncome: 0, cogs: 0, operatingExpenses: 0, addbacks: 0, ownerAdj: 0, oneTime: 0 }
+        { year: currentYear - 1, revenue: 0, ebitda: 0, netIncome: 0, cogs: 0, operatingExpenses: 0, addbacks: 0, ownerAdj: 0, oneTime: 0 },
+        { year: currentYear, revenue: 0, ebitda: 0, netIncome: 0, cogs: 0, operatingExpenses: 0, addbacks: 0, ownerAdj: 0, oneTime: 0 }
     ];
 
     const { register, control, handleSubmit, watch, setValue, formState: { errors } } = useForm<FormData>({

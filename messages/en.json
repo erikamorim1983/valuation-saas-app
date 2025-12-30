@@ -459,5 +459,52 @@
             "button": "Start Valuation Now",
             "back": "Back to Home"
         }
+    },
+    "ProfileSelection": {
+        "welcome": "Welcome to BrixAurea Valuation! 🎯",
+        "subtitle": "How do you plan to use the platform?",
+        "consultant": {
+            "title": "Business Consultant",
+            "feature1": "Evaluate multiple client businesses",
+            "feature2": "Professional valuation reports",
+            "feature3": "Client portfolio management",
+            "feature4": "Unlimited companies (Free tier)",
+            "button": "Continue as Consultant"
+        },
+        "businessOwner": {
+            "title": "Business Owner",
+            "feature1": "Value your own business",
+            "feature2": "Growth scenario simulator",
+            "feature3": "Track value over time",
+            "feature4": "Ready for fundraising or M&A",
+            "button": "Continue as Owner"
+        },
+        "note": "You can change your profile type later in settings"
+    },
+    "ConsultantOnboarding": {
+        "title": "Consultant Profile Setup",
+        "subtitle": "Tell us about your professional practice",
+        "fullName": "Full Name",
+        "phone": "Phone Number",
+        "companyName": "Company/Consultancy Name",
+        "companyNameHint": "Optional - Your firm or agency name",
+        "specialization": "Specialization",
+        "professionalId": "Professional ID",
+        "professionalIdHint": "CNPJ, CRC, CPA, or other professional certification",
+        "back": "Back",
+        "continue": "Continue to Dashboard",
+        "creating": "Creating Profile..."
+    },
+    "BusinessOwnerOnboarding": {
+        "profileTitle": "Owner Profile Setup",
+        "profileSubtitle": "First, tell us about yourself",
+        "companyTitle": "Company Information",
+        "companySubtitle": "Now, tell us about your business",
+        "fullName": "Full Name",
+        "phone": "Phone Number",
+        "back": "Back",
+        "next": "Next: Company Info",
+        "complete": "Complete Setup",
+        "creating": "Creating Profile..."
     }
 }

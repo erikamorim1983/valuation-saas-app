@@ -40,8 +40,48 @@ export async function updateSession(request: NextRequest, nextResponse?: NextRes
     )
 
     // This will refresh session if expired - required for Server Components
-    // https://supabase.com/docs/guides/auth/server-side/nextjs
     const { data: { user } } = await supabase.auth.getUser()
+
+    // Profile flow enforcement for authenticated users
+    if (user) {
+        const { pathname } = request.nextUrl
+
+        // Extract locale from pathname (e.g., /en/dashboard -> en)
+        const localeMatch = pathname.match(/^\/(en|pt|es)/)
+        const locale = localeMatch ? localeMatch[1] : 'en'
+
+        // Skip checks for auth callback and public routes
+        if (pathname.includes('/auth/') || pathname.includes('/login') || pathname.includes('/_next') || pathname.includes('/api')) {
+            return response
+        }
+
+        // Check if user has a profile
+        const { data: profile } = await supabase
+            .from('user_profiles')
+            .select('*')
+            .eq('user_id', user.id)
+            .single()
+
+        // If no profile exists, redirect to profile selection
+        if (!profile && !pathname.includes('/profile-selection')) {
+            const url = request.nextUrl.clone()
+            url.pathname = `/${locale}/profile-selection`
+            return NextResponse.redirect(url)
+        }
+
+        // If profile exists but onboarding not completed
+        if (profile && !profile.onboarding_completed) {
+            const onboardingPath = profile.user_type === 'consultant'
+                ? `/${locale}/onboarding/consultant`
+                : `/${locale}/onboarding/business-owner`
+
+            if (!pathname.includes('/onboarding/')) {
+                const url = request.nextUrl.clone()
+                url.pathname = onboardingPath
+                return NextResponse.redirect(url)
+            }
+        }
+    }
 
     return response
 }

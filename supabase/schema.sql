@@ -37,6 +37,91 @@ create trigger on_auth_user_created
   for each row execute procedure public.handle_new_user();
 
 
+-- User Profiles Table (Consultant vs Business Owner)
+create table user_profiles (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references auth.users on delete cascade not null unique,
+  user_type text not null check (user_type in ('consultant', 'business_owner')),
+  full_name text not null,
+  phone text,
+  company_name text,
+  specialization text,
+  professional_id text,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  onboarding_completed boolean default false,
+  
+  constraint full_name_length check (char_length(full_name) >= 2)
+);
+
+-- RLS for User Profiles
+alter table user_profiles enable row level security;
+
+create policy "Users can view own profile." on user_profiles
+  for select using ((select auth.uid()) = user_id);
+
+create policy "Users can insert own profile." on user_profiles
+  for insert with check ((select auth.uid()) = user_id);
+
+create policy "Users can update own profile." on user_profiles
+  for update using ((select auth.uid()) = user_id);
+
+create policy "Users can delete own profile." on user_profiles
+  for delete using ((select auth.uid()) = user_id);
+
+-- Trigger for user_profiles updated_at
+create trigger on_user_profile_updated
+  before update on user_profiles
+  for each row execute procedure public.handle_updated_at();
+
+
+-- Companies Table (Consultants can have multiple, Business Owners limited to 1)
+create table companies (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references auth.users on delete cascade not null,
+  created_by uuid references auth.users on delete cascade,
+  name text not null,
+  website text,
+  industry text not null,
+  sub_industry text not null,
+  founding_year integer not null,
+  description text not null,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  
+  constraint company_name_length check (char_length(name) >= 2),
+  constraint description_length check (char_length(description) >= 10)
+);
+
+-- RLS for Companies
+alter table companies enable row level security;
+
+create policy "Users can view own company." on companies
+  for select using ((select auth.uid()) = user_id);
+
+create policy "Users can insert own company." on companies
+  for insert with check ((select auth.uid()) = user_id);
+
+create policy "Users can update own company." on companies
+  for update using ((select auth.uid()) = user_id);
+
+create policy "Users can delete own company." on companies
+  for delete using ((select auth.uid()) = user_id);
+
+-- Trigger to update updated_at
+create or replace function public.handle_updated_at()
+returns trigger as $$
+begin
+  new.updated_at = timezone('utc'::text, now());
+  return new;
+end;
+$$ language plpgsql;
+
+create trigger on_company_updated
+  before update on companies
+  for each row execute procedure public.handle_updated_at();
+
+
 -- Valuations Table
 create type valuation_status as enum ('draft', 'completed', 'archived');
 

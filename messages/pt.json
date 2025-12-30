@@ -459,5 +459,52 @@
             "button": "Iniciar Valuation Agora",
             "back": "Voltar ao Início"
         }
+    },
+    "ProfileSelection": {
+        "welcome": "Bem-vindo ao BrixAurea Valuation! 🎯",
+        "subtitle": "Como você pretende usar a plataforma?",
+        "consultant": {
+            "title": "Consultor de Negócios",
+            "feature1": "Avaliar múltiplos negócios de clientes",
+            "feature2": "Relatórios profissionais de valuation",
+            "feature3": "Gestão de portfólio de clientes",
+            "feature4": "Empresas ilimitadas (Free tier)",
+            "button": "Continuar como Consultor"
+        },
+        "businessOwner": {
+            "title": "Empresário",
+            "feature1": "Avaliar o seu próprio negócio",
+            "feature2": "Simulador de cenários de crescimento",
+            "feature3": "Acompanhar valor ao longo do tempo",
+            "feature4": "Pronto para cap table ou M&A",
+            "button": "Continuar como Empresário"
+        },
+        "note": "Você pode alterar o tipo de perfil depois nas configurações"
+    },
+    "ConsultantOnboarding": {
+        "title": "Configuração de Perfil - Consultor",
+        "subtitle": "Conte-nos sobre sua prática profissional",
+        "fullName": "Nome Completo",
+        "phone": "Telefone",
+        "companyName": "Nome da Empresa/Consultoria",
+        "companyNameHint": "Opcional - Nome do seu escritório ou consultoria",
+        "specialization": "Especialização",
+        "professionalId": "Identificação Profissional",
+        "professionalIdHint": "CNPJ, CRC, CPA ou outra certificação profissional",
+        "back": "Voltar",
+        "continue": "Ir para Dashboard",
+        "creating": "Criando Perfil..."
+    },
+    "BusinessOwnerOnboarding": {
+        "profileTitle": "Configuração de Perfil - Empresário",
+        "profileSubtitle": "Primeiro, conte-nos sobre você",
+        "companyTitle": "Informações da Empresa",
+        "companySubtitle": "Agora, conte-nos sobre seu negócio",
+        "fullName": "Nome Completo",
+        "phone": "Telefone",
+        "back": "Voltar",
+        "next": "Próximo: Dados da Empresa",
+        "complete": "Concluir Cadastro",
+        "creating": "Criando Perfil..."
     }
 }
