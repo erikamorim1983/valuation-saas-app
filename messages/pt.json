@@ -247,6 +247,14 @@
         },
         "scorecard": {
             "title": "Saúde Qualitativa"
+        },
+        "benchmarks": {
+            "title": "Comparativo de Mercado",
+            "marketAvg": "Média do Mercado",
+            "vsMarket": "vs Mercado",
+            "source": "Fonte: Dados de Mercado",
+            "aiSimilarity": "Inteligência de Similaridade",
+            "similarModels": "Encontramos modelos similares"
         }
     },
     "Landing": {

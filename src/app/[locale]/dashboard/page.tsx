@@ -10,6 +10,8 @@ import { ValuationResult } from '@/lib/valuation';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { ReportView } from '@/components/valuation/ReportView';
+import { ScoreBar } from '@/components/dashboard/ScoreBar';
+import { BenchmarkingCard } from '@/components/dashboard/BenchmarkingCard';
 
 interface ValuationRecord {
     id: string;
@@ -21,6 +23,9 @@ interface ValuationRecord {
     } | null;
     status?: 'draft' | 'completed';
     created_at: string;
+    financial_data?: {
+        revenue?: number;
+    };
 }
 
 export default function DashboardPage() {
@@ -31,6 +36,13 @@ export default function DashboardPage() {
     const router = useRouter();
     const supabase = createClient();
     const [generatingPDF, setGeneratingPDF] = useState(false);
+
+    const completedValuations = valuations.filter(v => v.status === 'completed' || !v.status); // Fallback for old records
+    const draftValuations = valuations.filter(v => v.status === 'draft');
+    const latestValuation = completedValuations[0];
+
+    // FETCH BENCHMARKS (Strategies A, C, D)
+    const [benchData, setBenchData] = useState<any>(null);
 
     const downloadPDF = async () => {
         if (!latestValuation) return;
@@ -135,9 +147,37 @@ export default function DashboardPage() {
         fetchValuations();
     }, [supabase, router]);
 
-    const completedValuations = valuations.filter(v => v.status === 'completed' || !v.status); // Fallback for old records
-    const draftValuations = valuations.filter(v => v.status === 'draft');
-    const latestValuation = completedValuations[0];
+    useEffect(() => {
+        async function fetchBenchmarks() {
+            if (!latestValuation) return;
+
+            try {
+                // Strategy A & D: Fetch both from DB
+                const { data: marketData } = await supabase
+                    .from('market_benchmarks')
+                    .select('*')
+                    .eq('sector', latestValuation.sector)
+                    .single();
+
+                const { data: networkData } = await supabase
+                    .rpc('get_sector_benchmarks', { target_sector: latestValuation.sector });
+
+                const userRevenue = (latestValuation.financial_data as any)?.revenue || 1;
+                const userVal = latestValuation.valuation_result?.partnerValuation?.value || 0;
+
+                setBenchData({
+                    sector: latestValuation.sector,
+                    marketAvg: marketData?.revenue_multiple_avg || 4.5,
+                    userValue: userVal / userRevenue,
+                    networkAvg: networkData?.[0]?.avg_revenue_multiple || 3.8,
+                    similarCount: networkData?.[0]?.sample_size || 5
+                });
+            } catch (e) {
+                console.error("Error fetching benchmarks", e);
+            }
+        }
+        if (latestValuation) fetchBenchmarks();
+    }, [latestValuation, supabase]);
 
     const Card = ({ title, value, subtitle, prefix = '$' }: { title: string, value: number, subtitle?: string, prefix?: string }) => (
         <div className="bg-white dark:bg-zinc-900 p-6 rounded-xl border border-gray-200 dark:border-zinc-800 shadow-sm">
@@ -252,7 +292,7 @@ export default function DashboardPage() {
 
                     {/* ERROR MESSAGE IF STARTUP MODE FAILED */}
                     {details.error && (
-                        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-4 rounded-lg mb-6">
+                        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-800 p-4 rounded-lg mb-6">
                             <p className="text-red-700 dark:text-red-300">
                                 <strong>Aviso:</strong> {details.error}
                             </p>
@@ -358,20 +398,3 @@ export default function DashboardPage() {
     );
 }
 
-function ScoreBar({ label, value, max = 100, color }: { label: string, value: number, max?: number, color: string }) {
-    const percentage = Math.min(100, Math.max(0, (value / max) * 100));
-    return (
-        <div>
-            <div className="flex justify-between text-sm mb-1">
-                <span className="font-medium text-gray-700 dark:text-gray-300">{label}</span>
-                <span className="font-medium text-gray-900 dark:text-white">{Math.round(value)}/{max}</span>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
-                <div
-                    className={`${color} h-2 rounded-full transition-all duration-500`}
-                    style={{ width: `${percentage}%` }}
-                ></div>
-            </div>
-        </div>
-    );
-}

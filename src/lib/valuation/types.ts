@@ -92,11 +92,20 @@ export interface ValuationParams {
 export type ValuationMethod = 'DCF' | 'Multiples' | 'EarningsCap' | 'Qualitative' | 'Advanced' | 'Advanced (Startup)';
 
 export interface ValuationResult {
-    method: ValuationMethod;
-    value: number;
-    range: {
+    method?: ValuationMethod;
+    value?: number;
+    range?: {
         min: number;
         max: number;
     };
-    details?: Record<string, any>; // Relaxed typing for now to accommodate various engines
+    details?: Record<string, any>;
+    partnerValuation?: {
+        method: ValuationMethod;
+        value: number;
+        range: {
+            min: number;
+            max: number;
+        };
+        details?: Record<string, any>;
+    };
 }

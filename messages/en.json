@@ -247,6 +247,14 @@
         },
         "scorecard": {
             "title": "Qualitative Health"
+        },
+        "benchmarks": {
+            "title": "Market Benchmarking",
+            "marketAvg": "Market Average",
+            "vsMarket": "vs Market",
+            "source": "Source: Market Data",
+            "aiSimilarity": "Similarity Intelligence",
+            "similarModels": "We found similar models"
         }
     },
     "Landing": {
