@@ -7,6 +7,9 @@ import { Button } from '@/components/ui/Button';
 import { useRouter } from 'next/navigation';
 import { NumericFormat } from 'react-number-format';
 import { ValuationResult } from '@/lib/valuation';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import { ReportView } from '@/components/valuation/ReportView';
 
 interface ValuationRecord {
     id: string;
@@ -27,6 +30,52 @@ export default function DashboardPage() {
     const [loading, setLoading] = useState(true);
     const router = useRouter();
     const supabase = createClient();
+    const [generatingPDF, setGeneratingPDF] = useState(false);
+
+    const downloadPDF = async () => {
+        if (!latestValuation) return;
+        setGeneratingPDF(true);
+
+        try {
+            const reportElement = document.getElementById('valuation-report-template');
+            if (!reportElement) throw new Error('Report template not found');
+
+            // Temporarily show the element off-screen for capture
+            reportElement.style.position = 'fixed';
+            reportElement.style.left = '-9999px';
+            reportElement.style.top = '0';
+            reportElement.style.display = 'block';
+
+            const canvas = await html2canvas(reportElement, {
+                scale: 2, // High resolution
+                useCORS: true,
+                logging: false,
+                backgroundColor: '#ffffff'
+            });
+
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
+
+            const imgProps = pdf.getImageProperties(imgData);
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save(`Valuation_${latestValuation.company_name.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`);
+
+            // Hide again
+            reportElement.style.display = 'none';
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+            alert('Erro ao gerar PDF. Tente novamente.');
+        } finally {
+            setGeneratingPDF(false);
+        }
+    };
 
     useEffect(() => {
         async function fetchValuations() {
@@ -145,6 +194,13 @@ export default function DashboardPage() {
                         </div>
                         <div className="flex gap-3">
                             <Button
+                                className="bg-blue-600 hover:bg-blue-700 text-white"
+                                onClick={downloadPDF}
+                                disabled={generatingPDF}
+                            >
+                                {generatingPDF ? '⌛ Gerando...' : '📥 Relatório PDF'}
+                            </Button>
+                            <Button
                                 className="bg-purple-600 hover:bg-purple-700 text-white"
                                 onClick={() => router.push(`/${locale}/dashboard/valuation/${latestValuation.id}/simulate`)}
                             >
@@ -243,6 +299,19 @@ export default function DashboardPage() {
                         </div>
                     </div>
                 </>
+            )}
+
+            {/* Hidden Report Template for PDF Generation */}
+            {latestValuation && latestValuation.valuation_result?.partnerValuation && (
+                <div style={{ display: 'none' }}>
+                    <ReportView
+                        companyName={latestValuation.company_name}
+                        sector={latestValuation.sector}
+                        currency={latestValuation.currency}
+                        result={latestValuation.valuation_result.partnerValuation}
+                        date={latestValuation.created_at}
+                    />
+                </div>
             )}
         </div>
     );

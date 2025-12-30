@@ -535,5 +535,24 @@
         "complete": "Complete Setup",
         "creating": "Creating Profile...",
         "error": "Error creating profile and company. Please try again."
+    },
+    "Report": {
+        "title": "Valuation Report",
+        "subtitle": "Professional Market Value Assessment",
+        "companyInfo": "Company Information",
+        "valuationSummary": "Valuation Summary",
+        "qualityHealth": "Qualitative Health",
+        "methodology": "Methodology",
+        "disclaimerTitle": "Legal Disclaimer",
+        "disclaimerText": "This report is an automated estimate based on the information provided and market benchmarks. It does not constitute a formal appraisal or financial advice.",
+        "generatedOn": "Generated on",
+        "estimatedEquity": "Estimated Equity Value",
+        "marketRange": "Market Value Range",
+        "pillarOps": "Operations & Autonomy",
+        "pillarRec": "Recurring Revenue",
+        "pillarConc": "Low Concentration",
+        "pillarGrow": "Historical Growth",
+        "pillarRisk": "Risk & Compliance",
+        "finalNotes": "The valuation was calculated using a weighted multiple approach, adjusted by the company's Qualitative Score."
     }
 }

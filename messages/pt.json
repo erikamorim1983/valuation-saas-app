@@ -535,5 +535,24 @@
         "complete": "Concluir Cadastro",
         "creating": "Criando Perfil...",
         "error": "Erro ao criar perfil e empresa. Tente novamente."
+    },
+    "Report": {
+        "title": "Relatório de Valuation",
+        "subtitle": "Avaliação Profissional de Valor de Mercado",
+        "companyInfo": "Informações da Empresa",
+        "valuationSummary": "Resumo do Valuation",
+        "qualityHealth": "Saúde Qualitativa",
+        "methodology": "Metodologia",
+        "disclaimerTitle": "Aviso Legal",
+        "disclaimerText": "Este relatório é uma estimativa automatizada baseada nas informações fornecidas e benchmarks de mercado. Não constitui uma auditoria formal ou aconselhamento financeiro.",
+        "generatedOn": "Gerado em",
+        "estimatedEquity": "Valor Estimado de Equity",
+        "marketRange": "Faixa de Valor de Mercado",
+        "pillarOps": "Operações & Autonomia",
+        "pillarRec": "Receita Recorrente",
+        "pillarConc": "Baixa Concentração",
+        "pillarGrow": "Crescimento Histórico",
+        "pillarRisk": "Risco & Compliance",
+        "finalNotes": "O valuation foi calculado usando uma abordagem de múltiplos ponderados, ajustada pelo Score Qualitativo da empresa."
     }
 }
