@@ -50,8 +50,11 @@ export async function updateSession(request: NextRequest, nextResponse?: NextRes
         const localeMatch = pathname.match(/^\/(en|pt|es)/)
         const locale = localeMatch ? localeMatch[1] : 'en'
 
-        // Skip checks for auth callback and public routes
-        if (pathname.includes('/auth/') || pathname.includes('/login') || pathname.includes('/_next') || pathname.includes('/api')) {
+        // Skip checks for auth, login, and public pages
+        const publicPaths = ['/auth/', '/login', '/_next', '/api', '/features', '/methodology'];
+        const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/`;
+
+        if (publicPaths.some(path => pathname.includes(path)) || isHomePage) {
             return response
         }
 

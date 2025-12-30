@@ -1,19 +1,53 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Button } from '@/components/ui/Button';
+import { createUserProfile } from '@/lib/supabase/userProfile';
+import { useState } from 'react';
 
 export default function ProfileSelectionPage() {
     const router = useRouter();
+    const locale = useLocale();
     const t = useTranslations('ProfileSelection');
+    const [loading, setLoading] = useState(false);
 
-    const handleSelectConsultant = () => {
-        router.push('/onboarding/consultant');
+    const handleSelectConsultant = async () => {
+        setLoading(true);
+        try {
+            await createUserProfile({
+                user_type: 'consultant',
+                full_name: '', // Will be filled in onboarding
+                phone: undefined,
+                company_name: undefined,
+                specialization: undefined,
+                professional_id: undefined
+            });
+            router.push(`/${locale}/onboarding/consultant`);
+        } catch (error) {
+            console.error('Error creating consultant profile:', error);
+            alert('Error creating profile. Please try again.');
+            setLoading(false);
+        }
     };
 
-    const handleSelectBusinessOwner = () => {
-        router.push('/onboarding/business-owner');
+    const handleSelectBusinessOwner = async () => {
+        setLoading(true);
+        try {
+            await createUserProfile({
+                user_type: 'business_owner',
+                full_name: '', // Will be filled in onboarding
+                phone: undefined,
+                company_name: undefined,
+                specialization: undefined,
+                professional_id: undefined
+            });
+            router.push(`/${locale}/onboarding/business-owner`);
+        } catch (error) {
+            console.error('Error creating business owner profile:', error);
+            alert('Error creating profile. Please try again.');
+            setLoading(false);
+        }
     };
 
     return (
@@ -56,9 +90,10 @@ export default function ProfileSelectionPage() {
                             </div>
                             <Button
                                 onClick={handleSelectConsultant}
+                                disabled={loading}
                                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3"
                             >
-                                {t('consultant.button')}
+                                {loading ? 'Creating profile...' : t('consultant.button')}
                             </Button>
                         </div>
                     </div>
@@ -90,9 +125,10 @@ export default function ProfileSelectionPage() {
                             </div>
                             <Button
                                 onClick={handleSelectBusinessOwner}
+                                disabled={loading}
                                 className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3"
                             >
-                                {t('businessOwner.button')}
+                                {loading ? 'Creating profile...' : t('businessOwner.button')}
                             </Button>
                         </div>
                     </div>
