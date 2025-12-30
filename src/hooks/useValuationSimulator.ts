@@ -16,8 +16,9 @@ export function useValuationSimulator(initialValuation: ValuationRecord) {
         riskReduction: 0
     });
 
-    const baseResult = initialValuation.valuation_result;
-    const isStartup = baseResult?.method === 'Advanced (Startup)';
+    // Extract the actual result (it is nested under partnerValuation)
+    const baseResult = initialValuation.valuation_result?.partnerValuation || (initialValuation.valuation_result as any);
+    const isStartup = baseResult?.method?.includes('Startup') || initialValuation.financial_data?.isStartup;
     const financials = initialValuation.financial_data;
 
     // Calculate Base Baseline Metrics

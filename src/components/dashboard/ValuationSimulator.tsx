@@ -10,13 +10,14 @@ interface Props {
 
 export function ValuationSimulator({ valuation }: Props) {
     const { baseline, simulation, params, setParam } = useValuationSimulator(valuation);
+    const baseValue = valuation.valuation_result?.partnerValuation?.value || (valuation.valuation_result as any)?.value || 0;
 
     if (!simulation) return <div>Carregando simulação...</div>;
 
-    const improvement = simulation.value - (valuation.valuation_result?.value || 0);
-    const improvementPercent = ((improvement / (valuation.valuation_result?.value || 1)) * 100).toFixed(1);
+    const improvement = simulation.value - baseValue;
+    const improvementPercent = baseValue > 0 ? ((improvement / baseValue) * 100).toFixed(1) : '100';
 
-    const isStartup = valuation.valuation_result?.method?.includes('Startup');
+    const isStartup = simulation.score.pillars.hasOwnProperty('ops') ? false : true; // Simple heuristic or use valuation_result method
 
     return (
         <div className="space-y-6">
