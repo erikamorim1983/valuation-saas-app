@@ -19,8 +19,8 @@ export function Footer() {
                     <div>
                         <h3 className="text-sm font-semibold text-gray-900 dark:text-zinc-100 tracking-wider uppercase mb-4">{t('company')}</h3>
                         <ul className="space-y-4">
-                            <li><Link href="#" className="text-base text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">{t('about')}</Link></li>
-                            <li><Link href="#" className="text-base text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">{t('contact')}</Link></li>
+                            <li><Link href={`/${locale}/about`} className="text-base text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">{t('about')}</Link></li>
+                            <li><Link href={`/${locale}/contact`} className="text-base text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">{t('contact')}</Link></li>
                         </ul>
                     </div>
                     <div>

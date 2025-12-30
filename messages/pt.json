@@ -2,6 +2,9 @@
     "Navbar": {
         "features": "Funcionalidades",
         "methodology": "Metodologia",
+        "company": "Empresa",
+        "about": "Sobre",
+        "contact": "Contato",
         "pricing": "Preços",
         "signIn": "Entrar",
         "getStarted": "Começar Agora",
@@ -554,5 +557,49 @@
         "pillarGrow": "Crescimento Histórico",
         "pillarRisk": "Risco & Compliance",
         "finalNotes": "O valuation foi calculado usando uma abordagem de múltiplos ponderados, ajustada pelo Score Qualitativo da empresa."
+    },
+    "AboutPage": {
+        "hero": {
+            "title": "Transformando Dados em Decisões Estratégicas",
+            "subtitle": "No BrixAurea Valuation, nossa missão é democratizar o acesso a inteligência financeira de alta performance para empreendedores e consultores."
+        },
+        "content": {
+            "mission": {
+                "title": "Nossa Missão",
+                "text": "Capacitar empresas de todos os tamanhos com ferramentas de valuation precisas, rápidas e acessíveis, permitindo que fundadores compreendam o valor real de seu trabalho e tomem decisões informadas."
+            },
+            "vision": {
+                "title": "Nossa Visão",
+                "text": "Ser a plataforma líder global em inteligência de mercado e valuation para a nova economia digital, conectando empresas a seu potencial máximo de valor."
+            },
+            "values": {
+                "title": "Nossos Valores",
+                "items": [
+                    "Precisão Matemática",
+                    "Transparência de Metodologia",
+                    "Simplicidade no Design",
+                    "Privacidade Absoluta de Dados"
+                ]
+            }
+        }
+    },
+    "ContactPage": {
+        "title": "Entre em Contato",
+        "subtitle": "Tem dúvidas sobre nossa metodologia ou precisa de suporte personalizado? Nossa equipe está pronta para ajudar.",
+        "form": {
+            "name": "Nome",
+            "email": "E-mail",
+            "subject": "Assunto",
+            "message": "Mensagem",
+            "send": "Enviar Mensagem",
+            "sending": "Enviando...",
+            "success": "Mensagem enviada com sucesso!",
+            "error": "Ocorreu um erro. Tente novamente."
+        },
+        "info": {
+            "office": "Escritório",
+            "email": "E-mail Suporte",
+            "phone": "Telefone"
+        }
     }
 }

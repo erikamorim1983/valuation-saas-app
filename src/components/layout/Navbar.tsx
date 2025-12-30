@@ -59,12 +59,32 @@ export function Navbar() {
                         </Link>
                     </div>
                     <div className="hidden md:flex items-center space-x-8">
-                        <Link href={`/${locale}/features`} className="text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400">
+                        <Link href={`/${locale}/features`} className="text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors">
                             {t('features')}
                         </Link>
-                        <Link href={`/${locale}/methodology`} className="text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400">
+                        <Link href={`/${locale}/methodology`} className="text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors">
                             {t('methodology')}
                         </Link>
+
+                        {/* Empresa Dropdown */}
+                        <div className="relative group">
+                            <button className="flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors py-2">
+                                {t('company')}
+                                <svg className="ml-1 w-4 h-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div className="absolute left-0 mt-0 w-48 bg-white dark:bg-zinc-900 rounded-xl shadow-xl border border-gray-100 dark:border-zinc-800 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                <div className="p-2">
+                                    <Link href={`/${locale}/about`} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-zinc-800 rounded-lg transition-colors">
+                                        {t('about')}
+                                    </Link>
+                                    <Link href={`/${locale}/contact`} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-zinc-800 rounded-lg transition-colors">
+                                        {t('contact')}
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div className="flex items-center space-x-4">
                         <LanguageSwitcher />

@@ -2,6 +2,9 @@
     "Navbar": {
         "features": "Features",
         "methodology": "Methodology",
+        "company": "Company",
+        "about": "About",
+        "contact": "Contact",
         "pricing": "Pricing",
         "signIn": "Sign In",
         "getStarted": "Get Started",
@@ -554,5 +557,49 @@
         "pillarGrow": "Historical Growth",
         "pillarRisk": "Risk & Compliance",
         "finalNotes": "The valuation was calculated using a weighted multiple approach, adjusted by the company's Qualitative Score."
+    },
+    "AboutPage": {
+        "hero": {
+            "title": "Transforming Data into Strategic Decisions",
+            "subtitle": "At BrixAurea Valuation, our mission is to democratize access to high-performance financial intelligence for entrepreneurs and consultants."
+        },
+        "content": {
+            "mission": {
+                "title": "Our Mission",
+                "text": "Empowering businesses of all sizes with accurate, fast, and accessible valuation tools, allowing founders to understand the real value of their work and make informed decisions."
+            },
+            "vision": {
+                "title": "Our Vision",
+                "text": "To be the leading global platform for market intelligence and valuation for the new digital economy, connecting companies to their maximum value potential."
+            },
+            "values": {
+                "title": "Our Values",
+                "items": [
+                    "Mathematical Precision",
+                    "Methodology Transparency",
+                    "Simplicity in Design",
+                    "Absolute Data Privacy"
+                ]
+            }
+        }
+    },
+    "ContactPage": {
+        "title": "Get in Touch",
+        "subtitle": "Have questions about our methodology or need personalized support? Our team and AI assistant are ready to help.",
+        "form": {
+            "name": "Name",
+            "email": "Email",
+            "subject": "Subject",
+            "message": "Message",
+            "send": "Send Message",
+            "sending": "Sending...",
+            "success": "Message sent successfully!",
+            "error": "An error occurred. Please try again."
+        },
+        "info": {
+            "office": "Office",
+            "email": "Support Email",
+            "phone": "Phone"
+        }
     }
 }

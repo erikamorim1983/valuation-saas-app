@@ -2,6 +2,9 @@
     "Navbar": {
         "features": "Funcionalidades",
         "methodology": "Metodología",
+        "company": "Empresa",
+        "about": "Sobre Nosotros",
+        "contact": "Contacto",
         "pricing": "Precios",
         "signIn": "Iniciar Sesión",
         "getStarted": "Empezar Ahora",
@@ -386,5 +389,215 @@
         "pillarGrow": "Crecimiento Histórico",
         "pillarRisk": "Riesgo & Cumplimiento",
         "finalNotes": "La valoración se calculó utilizando un enfoque de múltiplos ponderados, ajustado por el Score Cualitativo de la empresa."
+    },
+    "FeaturesPage": {
+        "hero": {
+            "title": "Mucho más que una calculadora",
+            "subtitle": "Una plataforma completa de inteligencia financiera para descubrir, monitorear y maximizar el valor de su negocio."
+        },
+        "core": {
+            "valuation": {
+                "title": "Valoración Precisa",
+                "desc": "Algoritmos avanzados que combinan múltiplos de mercado, DCF y análisis cualitativo en um único número confiable."
+            },
+            "simulator": {
+                "title": "Simulador de Escenarios",
+                "desc": "Juegue con las variables de crecimiento y margen para ver cómo impactan su valor de mercado en tiempo real."
+            },
+            "dashboard": {
+                "title": "Panel Centralizado",
+                "desc": "Gestione múltiples valoraciones, compare borradores y siga la evolución del valor de su empresa a lo largo del tiempo."
+            },
+            "persistence": {
+                "title": "Historial Seguro",
+                "desc": "Guarde su progreso, retome borradores y mantenga un historial completo de todas sus evaluaciones."
+            }
+        },
+        "deepDive": {
+            "wizard": {
+                "title": "Asistente Inteligente",
+                "desc": "Nuestro wizard paso a paso lo guía por todo el proceso, desde la identificación del sector hasta el análisis cualitativo, asegurando que no se olvide nenhum dato importante."
+            },
+            "simulator": {
+                "title": "El Poder del '¿Y si?'",
+                "desc": "No solo sepa cuánto vale su empresa hoy. Entienda exactamente qué necesita hacer para valer más mañana. Ajuste gobernanza, riesgo y crecimiento para ver el futuro."
+            }
+        }
+    },
+    "LegalPages": {
+        "Privacy": {
+            "title": "Política de Privacidad",
+            "lastUpdated": "Última actualización: 29 de Diciembre de 2024",
+            "intro": "Su privacidad es importante para nosotros. Es política de BrixAurea Valuation respetar su privacidad en relación con cualquier información suya que podamos recopilar en el sitio BrixAurea Valuation, y otros sitios que poseemos y operamos.",
+            "sections": [
+                {
+                    "title": "1. Información que Recopilamos",
+                    "content": "Solicitamos información personal solo cuando realmente la necesitamos para brindarle un servicio. Lo hacemos por medios justos y legales, con su conocimiento y consentimiento. También informamos por qué la estamos recopilando y cómo se utilizará."
+                },
+                {
+                    "title": "2. Uso de Datos",
+                    "content": "Solo retenemos la información recopilada durante el tiempo necesario para proporcionar el servicio solicitado. Cuando almacenamos datos, los protegemos dentro de medios comercialmente aceptables para evitar pérdidas y robos, así como el acceso, divulgación, copia, uso o modificación no autorizados."
+                },
+                {
+                    "title": "3. Compartir Información",
+                    "content": "No compartimos información de identificación personal públicamente o con terceros, excepto cuando lo exija la ley."
+                },
+                {
+                    "title": "4. Cookies",
+                    "content": "Nuestro sitio utiliza cookies para identificar sesiones de usuarios iniciadas. No utilizamos cookies con fines de seguimiento publicitario intrusivo."
+                }
+            ]
+        },
+        "Terms": {
+            "title": "Términos de Uso",
+            "lastUpdated": "Última actualización: 29 de Diciembre de 2024",
+            "intro": "Al acceder al sitio BrixAurea Valuation, acepta cumplir con estos términos de servicio, todas las leyes y regulaciones aplicables y acepta que es responsable de cumplir con todas las leyes locales aplicables.",
+            "sections": [
+                {
+                    "title": "1. Licencia de Uso",
+                    "content": "Se otorga permiso para descargar temporalmente una copia de los materiales (información o software) en el sitio BrixAurea Valuation, solo para visualización transitoria personal y no comercial."
+                },
+                {
+                    "title": "2. Descargo de Responsabilidad",
+                    "content": "Los materiales en el sitio web de BrixAurea Valuation se proporcionan 'tal cual'. BrixAurea Valuation no ofrece garantías, expresas o implícitas, y por la presente, renuncia y niega todas las demás garantías, incluidas, sin limitación, garantias implícitas o condiciones de comercialización, idoneidad para um fin específico o no infracción de propiedad intelectual u otra violación de derechos."
+                },
+                {
+                    "title": "3. Limitaciones",
+                    "content": "En ningún caso BrixAurea Valuation o seus proveedores serán responsables de ningún daño (incluidos, sin limitación, daños por pérdida de datos o ganancias o debido a la interrupción del negocio) que surjan del uso o la incapacidad de usar los materiales en BrixAurea Valuation, incluso si BrixAurea Valuation o um representante autorizado de BrixAurea Valuation ha sido notificado verbalmente o por escrito de la posibilidad de tales daños."
+                },
+                {
+                    "title": "4. Exactitud de los Materiales",
+                    "content": "Los materiales que se muestran en el sitio web de BrixAurea Valuation pueden incluir errores técnicos, tipográficos o fotográficos. BrixAurea Valuation no garantiza que nenhum material en su sitio web sea preciso, completo o actual."
+                }
+            ]
+        }
+    },
+    "MethodologyPage": {
+        "hero": {
+            "title": "La Plataforma Definitiva de Valoración",
+            "subtitle": "Combinamos ciencia de datos, métodos financieros tradicionales e inteligencia de mercado para entregar la valoración más precisa para empresas SaaS y digitales.",
+            "label": "Pitch Deck Institucional"
+        },
+        "problem": {
+            "title": "El Desafío",
+            "items": [
+                "La valoración tradicional es CARA ($ 15k+) y LENTA (semanas).",
+                "Falta de datos comparativos confiables para PYMEs y Startups.",
+                "Subjetividad excesiva en hojas de Excel complejas y sujetas a errores."
+            ]
+        },
+        "solution": {
+            "title": "La Solução",
+            "items": [
+                {
+                    "title": "Automatizado e Instantáneo:",
+                    "desc": "Informes profesionales en minutos."
+                },
+                {
+                    "title": "Multimetodología:",
+                    "desc": "Combina 4 motores de cálculo distintos."
+                },
+                {
+                    "title": "Accesible:",
+                    "desc": "Democratizando la valoración para cualquier emprendedor."
+                }
+            ]
+        },
+        "tech": {
+            "title": "Nuestra Tecnología",
+            "subtitle": "Utilizamos um enfoque híbrido ponderado, combinando flujos de caja futuros, múltiplos de mercado y activos intangibles."
+        },
+        "methods": {
+            "dcf": {
+                "title": "1. Discounted Cash Flow (DCF)",
+                "tag": "Crecimiento",
+                "desc": "Proyecta el potencial futuro del negocio. Ideal para startups escalables.",
+                "formula": {
+                    "wacc": "WACC = Rf + ERP + RiesgoEspecífico + SizePremium(5%)",
+                    "fcf": "FCF = EBITDA × (1 - TaxRate) - CapexEstimado",
+                    "val": "Valor = Σ(FCF / (1+WACC)^t) + TerminalValue"
+                }
+            },
+            "multiples": {
+                "title": "2. Múltiplos de Mercado",
+                "tag": "Comparativo",
+                "desc": "Mide el valor basado en transacciones reales del sector (SaaS, Fintech, E-commerce).",
+                "formula": {
+                    "w1": "SaaS Weight: 70% Ingresos / 30% EBITDA",
+                    "w2": "Traditional Weight: 30% Ingresos / 70% EBITDA",
+                    "range": "Rango = BaseMetric × SectorMultiple [Min, Max]"
+                }
+            },
+            "earnings": {
+                "title": "3. Capitalización de Ganancias",
+                "tag": "Estabilidad",
+                "desc": "Focado en la capacidad actual de generar caja (SDE). Ideal para 'Lifestyle Businesses'.",
+                "formula": {
+                    "sde": "SDE ≈ Lucro Neto + AddBacks (5% OpEx)",
+                    "cap": "CapRate = 20% (Base) + Riesgo Específico",
+                    "val": "Valor = SDE / CapRate"
+                }
+            },
+            "scorecard": {
+                "title": "4. Scorecard Cualitativo",
+                "tag": "Intangibles",
+                "desc": "Corrige el valor financiero basado en activos intangibles como equipo y mercado.",
+                "formula": {
+                    "weights": "Pesos: Equipo(30%), Producto(25%), Mercado(25%), Competición(20%)",
+                    "score": "Puntaje (0-10) vs Baseline (5)",
+                    "adj": "Ajuste = ((Puntaje - 5) / 5) × 30% (Máx Premio/Descuento)"
+                }
+            }
+        },
+        "cta": {
+            "title": "¿Listo para el Siguiente Nivel?",
+            "subtitle": "BrixAurea Valuation aporta claridad a la complejidad.",
+            "button": "Iniciar Valoración Ahora",
+            "back": "Volver al Inicio"
+        }
+    },
+    "AboutPage": {
+        "hero": {
+            "title": "Transformando Datos en Decisiones Estratégicas",
+            "subtitle": "En BrixAurea Valuation, nuestra misión es democratizar el acceso a la inteligencia financiera de alto rendimiento para emprendedores y consultores."
+        },
+        "content": {
+            "mission": {
+                "title": "Nuestra Misión",
+                "text": "Empoderar a empresas de todos los tamaños con herramientas de valoración precisas, rápidas y accesibles, permitiendo que los fundadores comprendan el valor real de su trabajo y tomen decisiones informadas."
+            },
+            "vision": {
+                "title": "Nuestra Visión",
+                "text": "Ser la plataforma líder mundial en inteligencia de mercado y valoración para la nueva economía digital, conectando a las empresas con su máximo potencial de valor."
+            },
+            "values": {
+                "title": "Nuestros Valores",
+                "items": [
+                    "Precisión Matemática",
+                    "Transparencia de Metodología",
+                    "Simplicidade en el Diseño",
+                    "Privacidad Absoluta de Datos"
+                ]
+            }
+        }
+    },
+    "ContactPage": {
+        "title": "Ponte en Contacto",
+        "subtitle": "¿Tienes dudas sobre nuestra metodología o necesitas soporte personalizado? Nuestro equipo está listo para ayudar.",
+        "form": {
+            "name": "Nombre",
+            "email": "Correo electrónico",
+            "subject": "Asunto",
+            "message": "Mensaje",
+            "send": "Enviar Mensaje",
+            "sending": "Enviando...",
+            "success": "¡Mensaje enviado con éxito!",
+            "error": "Ocurrió un error. Inténtalo de nuevo."
+        },
+        "info": {
+            "office": "Oficina",
+            "email": "Correo de Soporte",
+            "phone": "Teléfono"
+        }
     }
 }
