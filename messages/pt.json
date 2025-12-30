@@ -495,8 +495,8 @@
         "companyNameHint": "Opcional - Nome do seu escritório ou consultoria",
         "specialization": "Especialização",
         "professionalId": "Identificação Profissional",
-        "professionalIdPlaceholder": "CNPJ, CRC, CPA, etc.",
-        "professionalIdHint": "CNPJ, CRC, CPA ou outra certificação profissional",
+        "professionalIdPlaceholder": "CNPJ, CRC, CPA, CFA, etc.",
+        "professionalIdHint": "CNPJ, CRC, CPA, CFA ou outra certificação profissional",
         "spec": {
             "valuation": "Valuation",
             "ma": "Fusões e Aquisições (M&A)",

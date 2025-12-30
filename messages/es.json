@@ -4,7 +4,9 @@
         "methodology": "Metodología",
         "pricing": "Precios",
         "signIn": "Iniciar Sesión",
-        "getStarted": "Empezar Ahora"
+        "getStarted": "Empezar Ahora",
+        "dashboard": "Panel",
+        "logout": "Cerrar Sesión"
     },
     "Hero": {
         "title": "Benchmarking & Valoración para Empresas",
@@ -291,5 +293,67 @@
                 "privacy": "Política de Privacidad"
             }
         }
+    },
+    "ProfileSelection": {
+        "welcome": "¡Bienvenido a BrixAurea Valuation! 🎯",
+        "subtitle": "¿Cómo planeas usar la plataforma?",
+        "consultant": {
+            "title": "Consultor de Negocios",
+            "feature1": "Evaluar múltiples negocios de clientes",
+            "feature2": "Informes de valoración profesionales",
+            "feature3": "Gestión de cartera de clientes",
+            "feature4": "Empresas ilimitadas (Tier gratuito)",
+            "button": "Continuar como Consultor"
+        },
+        "businessOwner": {
+            "title": "Empresario",
+            "feature1": "Valorar su propio negocio",
+            "feature2": "Simulador de escenarios de crecimiento",
+            "feature3": "Seguir el valor a lo largo del tiempo",
+            "feature4": "Listo para financiamiento o M&A",
+            "button": "Continuar como Empresario"
+        },
+        "note": "Puede cambiar su tipo de perfil más tarde en la configuración"
+    },
+    "ConsultantOnboarding": {
+        "title": "Configuración de Perfil - Consultor",
+        "subtitle": "Cuéntanos sobre tu práctica profesional",
+        "fullName": "Nombre Completo",
+        "fullNamePlaceholder": "Su nombre completo",
+        "phone": "Teléfono",
+        "phonePlaceholder": "+34 600 123 456",
+        "companyName": "Nombre de Empresa/Consultoría",
+        "companyNamePlaceholder": "Nombre de su consultoría o empresa",
+        "companyNameHint": "Opcional - Nombre de su oficina o consultoría",
+        "specialization": "Especialización",
+        "professionalId": "Identificación Profesional",
+        "professionalIdPlaceholder": "CIF, NIF, CPA, CFA, etc.",
+        "professionalIdHint": "CIF, NIF, CPA, CFA u otra certificación profesional",
+        "spec": {
+            "valuation": "Valoración",
+            "ma": "Fusiones y Adquisiciones (M&A)",
+            "strategy": "Estrategia de Negocios",
+            "advisory": "Asesoría Financiera",
+            "tax": "Planificación Fiscal",
+            "accounting": "Contabilidad",
+            "consulting": "Consultoría Empresarial",
+            "other": "Otro"
+        },
+        "back": "Volver",
+        "continue": "Ir a Dashboard",
+        "creating": "Creando Perfil...",
+        "error": "Error al crear perfil. Inténtalo de nuevo."
+    },
+    "BusinessOwnerOnboarding": {
+        "profileTitle": "Configuración de Perfil - Empresario",
+        "profileSubtitle": "Primero, cuéntanos sobre ti",
+        "companyTitle": "Información de la Empresa",
+        "companySubtitle": "Ahora, cuéntanos sobre tu negocio",
+        "fullName": "Nombre Completo",
+        "phone": "Teléfono",
+        "back": "Volver",
+        "next": "Siguiente: Datos de la Empresa",
+        "complete": "Completar Registro",
+        "creating": "Creando Perfil..."
     }
 }
