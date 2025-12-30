@@ -1,0 +1,463 @@
+{
+    "Navbar": {
+        "features": "Funcionalidades",
+        "methodology": "Metodologia",
+        "pricing": "Preços",
+        "signIn": "Entrar",
+        "getStarted": "Começar Agora"
+    },
+    "Hero": {
+        "title": "Benchmarking & Valuation para Empresas",
+        "subtitle": "Descubra o valor real de mercado da sua empresa. Compare suas métricas com empresas do setor e desbloqueie insights para crescimento.",
+        "ctaStart": "Iniciar Avaliação Gratuita",
+        "ctaLearn": "Para Investidores",
+        "disclaimer": "Coleta de dados 100% gratuita. Não requer cartão de crédito."
+    },
+    "Features": {
+        "sectionTitle": "Metodologia",
+        "mainTitle": "Motores de Valuation Abrangentes",
+        "subTitle": "Combinamos quatro modelos de avaliação distintos para oferecer uma visão holística do valor da sua empresa.",
+        "dcfTitle": "DCF Simplificado",
+        "dcfDesc": "Projeta fluxos de caixa futuros e os desconta a valor presente, ideal para startups em crescimento.",
+        "multiplesTitle": "Múltiplos de Mercado",
+        "multiplesDesc": "Compara seu negócio com empresas semelhantes de capital aberto ou transações recentes.",
+        "earningsTitle": "Capitalização",
+        "earningsDesc": "Avalia empresas estáveis com base na capacidade de gerar lucros discricionários consistentes.",
+        "qualitativeTitle": "Score Qualitativo",
+        "qualitativeDesc": "Ajusta o valuation com base em riscos de mercado, força da equipe e maturidade operacional."
+    },
+    "CTA": {
+        "title": "Pronto para descobrir o valor da sua empresa?",
+        "subtitle": "Obtenha um relatório de valuation profissional em minutos, não em semanas. Comece sua avaliação gratuita hoje.",
+        "button": "Começar Valuation Agora"
+    },
+    "Footer": {
+        "product": "Produto",
+        "company": "Empresa",
+        "legal": "Legal",
+        "features": "Funcionalidades",
+        "methodology": "Metodologia",
+        "pricing": "Preços",
+        "about": "Sobre",
+        "contact": "Contato",
+        "privacy": "Privacidade",
+        "terms": "Termos",
+        "rights": "Todos os direitos reservados.",
+        "developedBy": "Plataforma desenvolvida por"
+    },
+    "Wizard": {
+        "steps": {
+            "identification": "Identificação",
+            "financials": "Financeiro",
+            "qualitative": "Qualitativo",
+            "review": "Revisão"
+        },
+        "identification": {
+            "title": "Identificação da Empresa",
+            "subtitle": "Conte-nos sobre o seu negócio."
+        },
+        "financials": {
+            "title": "Dados Financeiros",
+            "subtitle": "Insira seus dados anuais mais recentes em",
+            "helperMessage": "Como sua empresa está em estágio inicial, vamos estimar os resultados com base em sua economia unitária.",
+            "pricePerUnit": "Preço por Unidade / Assinatura",
+            "costPerUnit": "Custo Variável por Unidade",
+            "projectedCustomers": "Clientes Projetados (Ano 1)",
+            "fixedMonthlyCosts": "Custos Fixos Mensais (Burn Rate)",
+            "priceLabel_saas": "Receita Mensal Média por Usuário (ARPU)",
+            "costLabel_saas": "Custo de Servir por Usuário (Mensal)",
+            "customersLabel_saas": "Clientes Pagantes Ativos",
+            "priceLabel_ecommerce": "Ticket Médio (AOV)",
+            "costLabel_ecommerce": "Custo do Produto (CMV) por Unidade",
+            "customersLabel_ecommerce": "Total de Pedidos / Vendas",
+            "priceLabel_service": "Valor Médio do Projeto",
+            "costLabel_service": "Custo de Entrega por Projeto",
+            "customersLabel_service": "Total de Clientes / Projetos",
+            "suggestGrowth": "Sugerir Taxa de Mercado"
+        },
+        "qualitative": {
+            "title": "Scorecard Qualitativo",
+            "subtitle": "Avalie seu negócio em fatores qualitativos chave (0-10)",
+            "helperMessage": "Seja honesto! Essas pontuações impactam significativamente o múltiplo da sua avaliação. Uma avaliação robusta requer auto-avaliação precisa.",
+            "weak": "Fraco / Alto Risco",
+            "strong": "Forte / Baixo Risco"
+        },
+        "scorecard": {
+            "team": "Equipe & Experiência",
+            "team_desc": "Histórico dos fundadores, expertise técnica e capacidade de execução.",
+            "product": "Produto & Tecnologia",
+            "product_desc": "Diferenciação, barreira técnica, qualidade do código e escalabilidade.",
+            "market": "Mercado & Tamanho",
+            "market_desc": "TAM (Mercado Total Endereçável), taxa de crescimento e tendências de mercado.",
+            "competition": "Competição & Defensibilidade",
+            "competition_desc": "Cenário competitivo, barreiras de entrada e vantagens injustas."
+        },
+        "review": {
+            "title": "Revisar e Enviar",
+            "subtitle": "Verifique seus dados antes de gerar o valuation."
+        },
+        "fields": {
+            "companyName": "Nome da Empresa",
+            "url": "Site (URL)",
+            "description": "O que a empresa faz?",
+            "descriptionPlaceholder": "Ex: Plataforma SaaS para gestão de...",
+            "startingYear": "Ano de Fundação",
+            "stage": "Estágio de Crescimento",
+            "sector": "Setor / Indústria",
+            "subSector": "Sub-Setor / Nicho",
+            "subSectorPlaceholder": "Digite o seu nicho específico...",
+            "revenue": "Receita Anual",
+            "ebitda": "EBITDA",
+            "netIncome": "Lucro Líquido",
+            "operatingExpenses": "Despesas Operacionais",
+            "cogs": "Custo das Mercadorias Vendidas (CMV)",
+            "growthRate": "Taxa de Crescimento Anual",
+            "teamScore": "Equipe e Gestão",
+            "productScore": "Produto e Tecnologia",
+            "marketScore": "Tamanho de Mercado",
+            "competitionScore": "Vantagem Competitiva"
+        },
+        "stages": {
+            "idea": "Ideia / Pré-Receita",
+            "startup": "Startup (Tração Inicial)",
+            "operational": "Crescimento / Escala",
+            "scaling": "Madura / Consolidada"
+        },
+        "buttons": {
+            "next": "Próximo Passo",
+            "back": "Voltar",
+            "review": "Revisar",
+            "finish": "Calcular & Comparar",
+            "processing": "Analisando Dados..."
+        },
+        "sectors": {
+            "SaaS": "SaaS (Software)",
+            "E-commerce": "E-commerce",
+            "Service": "Serviços / Agência",
+            "Fintech": "Fintech",
+            "Edtech": "Edtech",
+            "Retail": "Varejo / Comércio",
+            "Food_Beverage": "Alimentação & Bebidas",
+            "Construction": "Construção & Imobiliário",
+            "Automotive": "Automotivo",
+            "Health": "Saúde",
+            "Manufacturing": "Indústria / Manufatura",
+            "Logistics": "Logística & Transporte",
+            "Other": "(Outros)"
+        },
+        "subSectors": {
+            "B2B": "B2B (Empresas)",
+            "B2C": "B2C (Consumidor)",
+            "Enterprise": "Enterprise",
+            "Micro-SaaS": "Micro-SaaS",
+            "Vertical SaaS": "SaaS Vertical",
+            "AI_Wrapper": "Ferramenta de IA (Wrapper)",
+            "D2C_Brand": "Marca D2C (Direto ao Consumidor)",
+            "Dropshipping": "Dropshipping",
+            "Marketplace": "Marketplace",
+            "Digital_Products": "Produtos Digitais",
+            "Subscription_Box": "Clube de Assinatura",
+            "Marketing_Agency": "Agência de Marketing",
+            "Dev_Shop": "Desenvolvimento de Software",
+            "Consulting": "Consultoria",
+            "Legal": "Advocacia / Jurídico",
+            "Accounting": "Contabilidade",
+            "Cleaning": "Limpeza & Conservação",
+            "Beauty_Wellness": "Beleza & Bem-Estar",
+            "Gym_Fitness": "Academia / Fitness",
+            "Staff_Augmentation": "Alocação de Profissionais (Body Shop)",
+            "Payments": "Pagamentos / Gateway",
+            "Lending": "Crédito / Empréstimos",
+            "Personal_Finance": "Finanças Pessoais",
+            "Crypto_Web3": "Cripto / Web3",
+            "Insurtech": "Seguros",
+            "LMS": "Plataforma de Ensino (LMS)",
+            "Course_Creator": "Criador de Cursos / Infoproduto",
+            "Coaching": "Coaching / Mentoria",
+            "Corporate_Training": "Treinamento Corporativo",
+            "School_University": "Escola / Universidade",
+            "Supermarket": "Supermercado / Mercearia",
+            "Fashion": "Loja de Roupas / Moda",
+            "Electronics": "Loja de Eletrônicos",
+            "Furniture": "Móveis e Decoração",
+            "Convenience_Store": "Loja de Conveniência",
+            "Pharmacy": "Farmácia",
+            "Restaurant": "Restaurante",
+            "Cafe_Bakery": "Café / Padaria",
+            "Bar_Nightclub": "Bar / Balada",
+            "Food_Truck": "Food Truck",
+            "Catering": "Buffet / Catering",
+            "Ghost_Kitchen": "Delivery / Dark Kitchen",
+            "General_Contractor": "Construtora / Empreiteira",
+            "Renovation": "Reformas e Reparos",
+            "Architecture_Design": "Arquitetura / Design de Interiores",
+            "Real_Estate_Dev": "Incorporadora",
+            "Materials_Supply": "Material de Construção",
+            "Real_Estate": "Imobiliária / Corretagem",
+            "Dealership": "Concessionária / Revenda",
+            "Repair_Shop": "Oficina Mecânica / Funilaria",
+            "Rental": "Locadora de Veículos",
+            "Auto_Parts": "Autopeças",
+            "Car_Wash": "Lava-Rápido / Estética",
+            "Medical_Clinic": "Clínica Médica",
+            "Dental_Clinic": "Clínica Odontológica",
+            "Hospital": "Hospital",
+            "Physiotherapy": "Fisioterapia",
+            "Lab": "Laboratório",
+            "Food_Processing": "Indústria Alimentícia",
+            "Textile": "Indústria Têxtil",
+            "Electronics_Mfg": "Indústria Eletrônica",
+            "Industrial_Equip": "Máquinas e Equipamentos",
+            "Consumer_Goods": "Bens de Consumo",
+            "Trucking": "Transportadora / Frotas",
+            "Warehousing": "Armazenagem / Estoque",
+            "Last_Mile": "Entregas Rápidas (Last Mile)",
+            "Freight_Forwarding": "Comércio Exterior / Importação",
+            "Gig_Economy": "Gig Economy / Apps",
+            "Non_Profit": "ONG / Sem Fins Lucrativos",
+            "Agriculture": "Agronegócio",
+            "Entertainment": "Entretenimento / Eventos",
+            "Hardware": "Hardware / IoT",
+            "Healthtech": "Healthtech"
+        }
+    },
+    "Dashboard": {
+        "title": "Dashboard de Valuation",
+        "empty": {
+            "title": "Nenhuma Valuation Encontrada",
+            "subtitle": "Você ainda não realizou nenhuma avaliação. Comece sua primeira análise para ver os insights aqui.",
+            "button": "Criar Nova Valuation"
+        },
+        "actions": {
+            "newValuation": "Nova Valuation",
+            "editInputs": "Editar Dados",
+            "exportReport": "Exportar Relatório"
+        },
+        "metrics": {
+            "estimatedValue": "Valor Estimado",
+            "avgValue": "Média de todos métodos"
+        },
+        "charts": {
+            "valuationRange": "Análise de Faixa de Valor"
+        },
+        "scorecard": {
+            "title": "Saúde Qualitativa"
+        }
+    },
+    "Landing": {
+        "hero": {
+            "title": "Descubra o Valor do seu SaaS em Minutos",
+            "subtitle": "Motor de valuation profissional usando DCF, Múltiplos e métodos de ML para uma estimativa precisa.",
+            "cta": "Começar Valuation Agora",
+            "login": "Entrar"
+        },
+        "features": {
+            "title": "Por que nos escolher?",
+            "speed": {
+                "title": "Resultados Instantâneos",
+                "desc": "Sem planilhas complexas. Tenha sua resposta em minutos."
+            },
+            "accuracy": {
+                "title": "Baseado em Dados",
+                "desc": "Baseado em transações reais de mercado e diversos modelos financeiros."
+            },
+            "security": {
+                "title": "Privado e Seguro",
+                "desc": "Seus dados são criptografados e nunca compartilhados sem permissão."
+            }
+        },
+        "methodology": {
+            "title": "Nossa Metodologia",
+            "subtitle": "Modelos financeiros rigorosos adaptados para a economia SaaS moderna.",
+            "dcf": {
+                "title": "DCF Simplificado",
+                "desc": "Desconta fluxos de caixa futuros a valor presente, ajustado para curvas de crescimento e riscos específicos de SaaS."
+            },
+            "multiples": {
+                "title": "Múltiplos de Mercado",
+                "desc": "Compara suas métricas (ARR, EBITDA) com empresas públicas comparáveis e fusões e aquisições recentes."
+            },
+            "earnings": {
+                "title": "Capitalização de Lucros",
+                "desc": "Determina o valor com base na capacidade da empresa de gerar lucros estáveis e sustentáveis ao longo do tempo."
+            },
+            "scorecard": {
+                "title": "Scorecard Qualitativo",
+                "desc": "Ajusta a avaliação financeira com base em ativos não monetários: Força da equipe, defensibilidade do produto e tamanho do mercado."
+            }
+        },
+        "footer": {
+            "rights": "Todos os direitos reservados.",
+            "links": {
+                "terms": "Termos de Uso",
+                "privacy": "Política de Privacidade"
+            }
+        }
+    },
+    "FeaturesPage": {
+        "hero": {
+            "title": "Muito Mais que uma Calculadora",
+            "subtitle": "Uma plataforma completa de inteligência financeira para descobrir, monitorar e maximizar o valor do seu negócio."
+        },
+        "core": {
+            "valuation": {
+                "title": "Valuation Preciso",
+                "desc": "Algoritmos avançados que combinam múltiplos de mercado, DCF e análise qualitativa em um único número confiável."
+            },
+            "simulator": {
+                "title": "Simulador de Cenários",
+                "desc": "Brinque com as variáveis de crescimento e margem para ver como elas impactam seu valor de mercado em tempo real."
+            },
+            "dashboard": {
+                "title": "Dashboard Centralizado",
+                "desc": "Gerencie múltiplos valuations, compare rascunhos e acompanhe a evolução do valor da sua empresa ao longo do tempo."
+            },
+            "persistence": {
+                "title": "Histórico Seguro",
+                "desc": "Salve seu progresso, retome rascunhos e mantenha um histórico completo de todas as suas avaliações."
+            }
+        },
+        "deepDive": {
+            "wizard": {
+                "title": "Assistente Inteligente",
+                "desc": "Nosso wizard passo-a-passo guia você por todo o processo, desde a identificação do setor até a análise qualitativa, garantindo que nenhum dado importante seja esquecido."
+            },
+            "simulator": {
+                "title": "O Poder do 'E Se?'",
+                "desc": "Não apenas saiba quanto sua empresa vale hoje. Entenda exatamente o que precisa fazer para valer mais amanhã. Ajuste governança, risco e crescimento para ver o futuro."
+            }
+        }
+    },
+    "LegalPages": {
+        "Privacy": {
+            "title": "Política de Privacidade",
+            "lastUpdated": "Última atualização: 29 de Dezembro de 2024",
+            "intro": "A sua privacidade é importante para nós. É política do MyValuation respeitar a sua privacidade em relação a qualquer informação sua que possamos coletar no site MyValuation, e outros sites que possuímos e operamos.",
+            "sections": [
+                {
+                    "title": "1. Informações que Coletamos",
+                    "content": "Solicitamos informações pessoais apenas quando realmente precisamos delas para lhe fornecer um serviço. Fazemo-lo por meios justos e legais, com o seu conhecimento e consentimento. Também informamos por que estamos coletando e como será usado."
+                },
+                {
+                    "title": "2. Uso de Dados",
+                    "content": "Apenas retemos as informações coletadas pelo tempo necessário para fornecer o serviço solicitado. Quando armazenamos dados, protegemos dentro de meios comercialmente aceitáveis ​​para evitar perdas e roubos, bem como acesso, divulgação, cópia, uso ou modificação não autorizados."
+                },
+                {
+                    "title": "3. Compartilhamento de Informações",
+                    "content": "Não compartilhamos informações de identificação pessoal publicamente ou com terceiros, exceto quando exigido por lei."
+                },
+                {
+                    "title": "4. Cookies",
+                    "content": "Nosso site usa cookies para identificar sessões de usuários logados. Não usamos cookies para fins de rastreamento publicitário intrusivo."
+                }
+            ]
+        },
+        "Terms": {
+            "title": "Termos de Uso",
+            "lastUpdated": "Última atualização: 29 de Dezembro de 2024",
+            "intro": "Ao acessar ao site MyValuation, concorda em cumprir estes termos de serviço, todas as leis e regulamentos aplicáveis ​​e concorda que é responsável pelo cumprimento de todas as leis locais aplicáveis.",
+            "sections": [
+                {
+                    "title": "1. Licença de Uso",
+                    "content": "É concedida permissão para baixar temporariamente uma cópia dos materiais (informações ou software) no site MyValuation , apenas para visualização transitória pessoal e não comercial."
+                },
+                {
+                    "title": "2. Isenção de Responsabilidade",
+                    "content": "Os materiais no site da MyValuation são fornecidos 'como estão'. MyValuation não oferece garantias, expressas ou implícitas, e, por este meio, isenta e nega todas as outras garantias, incluindo, sem limitação, garantias implícitas ou condições de comercialização, adequação a um fim específico ou não violação de propriedade intelectual ou outra violação de direitos."
+                },
+                {
+                    "title": "3. Limitações",
+                    "content": "Em nenhum caso o MyValuation ou seus fornecedores serão responsáveis ​​por quaisquer danos (incluindo, sem limitação, danos por perda de dados ou lucro ou devido a interrupção dos negócios) decorrentes do uso ou da incapacidade de usar os materiais em MyValuation, mesmo que MyValuation ou um representante autorizado da MyValuation tenha sido notificado oralmente ou por escrito da possibilidade de tais danos."
+                },
+                {
+                    "title": "4. Precisão dos Materiais",
+                    "content": "Os materiais exibidos no site da MyValuation podem incluir erros técnicos, tipográficos ou fotográficos. MyValuation não garante que qualquer material em seu site seja preciso, completo ou atual."
+                }
+            ]
+        }
+    },
+    "MethodologyPage": {
+        "hero": {
+            "title": "A Plataforma Definitiva de Valuation",
+            "subtitle": "Combinamos ciência de dados, métodos financeiros tradicionais e inteligência de mercado para entregar o valuation mais preciso para empresas SaaS e digitais.",
+            "label": "Pitch Deck Institucional"
+        },
+        "problem": {
+            "title": "O Desafio",
+            "items": [
+                "Valuation tradicional é CARO (R$ 15k+) e LENTO (semanas).",
+                "Falta de dados comparativos confiáveis para PMEs e Startups.",
+                "Subjetividade excessiva em planilhas de Excel complexas e sujeitas a erros."
+            ]
+        },
+        "solution": {
+            "title": "A Solução",
+            "items": [
+                {
+                    "title": "Automatizado & Instantâneo:",
+                    "desc": "Relatórios profissionais em minutos."
+                },
+                {
+                    "title": "Multimetodologia:",
+                    "desc": "Combina 4 motores de cálculo distintos."
+                },
+                {
+                    "title": "Acessível:",
+                    "desc": "Democratizando o valuation para qualquer empreendedor."
+                }
+            ]
+        },
+        "tech": {
+            "title": "Nossa Tecnologia",
+            "subtitle": "Utilizamos uma abordagem híbrida ponderada, combinando fluxos de caixa futuros, múltiplos de mercado e ativos intangíveis."
+        },
+        "methods": {
+            "dcf": {
+                "title": "1. Discounted Cash Flow (DCF)",
+                "tag": "Crescimento",
+                "desc": "Projeta o potencial futuro do negócio. Ideal para startups escaláveis.",
+                "formula": {
+                    "wacc": "WACC = Rf + ERP + RiscoEspecífico + SizePremium(5%)",
+                    "fcf": "FCF = EBITDA × (1 - TaxRate) - CapexEstimado",
+                    "val": "Valor = Σ(FCF / (1+WACC)^t) + TerminalValue"
+                }
+            },
+            "multiples": {
+                "title": "2. Múltiplos de Mercado",
+                "tag": "Comparativo",
+                "desc": "Baliza o valor com base em transações reais do setor (SaaS, Fintech, E-commerce).",
+                "formula": {
+                    "w1": "SaaS Weight: 70% Receita / 30% EBITDA",
+                    "w2": "Traditional Weight: 30% Receita / 70% EBITDA",
+                    "range": "Range = BaseMetric × SectorMultiple [Min, Max]"
+                }
+            },
+            "earnings": {
+                "title": "3. Capitalização de Lucros",
+                "tag": "Estabilidade",
+                "desc": "Focado na capacidade atual de gerar caixa (SDE). Ideal para 'Lifestyle Businesses'.",
+                "formula": {
+                    "sde": "SDE ≈ Lucro Líquido + AddBacks (5% OpEx)",
+                    "cap": "CapRate = 20% (Base) + Risco Específico",
+                    "val": "Valor = SDE / CapRate"
+                }
+            },
+            "scorecard": {
+                "title": "4. Scorecard Qualitativo",
+                "tag": "Intangíveis",
+                "desc": "Corrige o valor financeiro com base em ativos intangíveis como time e mercado.",
+                "formula": {
+                    "weights": "Pesos: Time(30%), Produto(25%), Mercado(25%), Competição(20%)",
+                    "score": "Score (0-10) vs Baseline (5)",
+                    "adj": "Ajuste = ((Score - 5) / 5) × 30% (Max Premium/Discount)"
+                }
+            }
+        },
+        "cta": {
+            "title": "Pronto para o Próximo Nível?",
+            "subtitle": "O MyValuation traz clareza para a complexidade.",
+            "button": "Iniciar Valuation Agora",
+            "back": "Voltar ao Início"
+        }
+    }
+}
