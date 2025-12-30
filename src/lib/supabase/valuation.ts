@@ -62,8 +62,7 @@ export async function updateValuation(id: string, data: Partial<ValuationRecord>
             currency: data.currency,
             financial_data: data.financial_data,
             valuation_result: data.valuation_result,
-            status: data.status,
-            updated_at: new Date().toISOString()
+            status: data.status
         })
         .eq('id', id)
         .select()
