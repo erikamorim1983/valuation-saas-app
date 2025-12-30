@@ -32,7 +32,7 @@ export function Footer() {
                     </div>
                 </div>
                 <div className="mt-8 border-t border-gray-200 dark:border-zinc-800 pt-8 flex flex-col md:flex-row justify-center items-center gap-6 text-center">
-                    <p className="text-base text-gray-400">© 2025 MyValuation. {t('rights')}</p>
+                    <p className="text-base text-gray-400">© 2025 BrixAurea Valuation. {t('rights')}</p>
                     <span className="hidden md:inline text-gray-300 dark:text-gray-700">|</span>
                     <p className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1">
                         {t('developedBy')} <a href="https://www.eafinancialadvisory.com/" target="_blank" rel="noopener noreferrer" className="font-bold text-blue-900 dark:text-blue-300 hover:text-blue-700 dark:hover:text-blue-200 transition-colors">EA Financial Advisory Services</a>
