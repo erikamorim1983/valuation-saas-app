@@ -518,10 +518,22 @@
         "companyTitle": "Company Information",
         "companySubtitle": "Now, tell us about your business",
         "fullName": "Full Name",
+        "fullNamePlaceholder": "John Doe",
         "phone": "Phone Number",
+        "phonePlaceholder": "(555) 123-4567",
+        "companyName": "Company Name",
+        "companyNamePlaceholder": "Acme Corp",
+        "website": "Website (URL)",
+        "websitePlaceholder": "https://acme.com",
+        "description": "What does the company do?",
+        "descriptionPlaceholder": "Briefly describe your business",
+        "foundingYear": "Founding Year",
+        "industry": "Industry",
+        "subIndustry": "Sub-Industry",
         "back": "Back",
         "next": "Next: Company Info",
         "complete": "Complete Setup",
-        "creating": "Creating Profile..."
+        "creating": "Creating Profile...",
+        "error": "Error creating profile and company. Please try again."
     }
 }

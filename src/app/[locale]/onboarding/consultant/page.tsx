@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { createUserProfile } from '@/lib/supabase/userProfile';
+import { updateUserProfile } from '@/lib/supabase/userProfile';
 import { Button } from '@/components/ui/Button';
 
 export default function ConsultantOnboardingPage() {
@@ -28,13 +28,13 @@ export default function ConsultantOnboardingPage() {
         setLoading(true);
 
         try {
-            await createUserProfile({
-                user_type: 'consultant',
+            await updateUserProfile({
                 full_name: formData.full_name,
                 phone: formData.phone || undefined,
                 company_name: formData.company_name || undefined,
                 specialization: formData.specialization || undefined,
-                professional_id: formData.professional_id || undefined
+                professional_id: formData.professional_id || undefined,
+                onboarding_completed: true
             });
 
             // Redirect to dashboard

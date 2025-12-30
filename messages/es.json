@@ -350,10 +350,22 @@
         "companyTitle": "Información de la Empresa",
         "companySubtitle": "Ahora, cuéntanos sobre tu negocio",
         "fullName": "Nombre Completo",
+        "fullNamePlaceholder": "Su nombre completo",
         "phone": "Teléfono",
+        "phonePlaceholder": "(555) 123-4567",
+        "companyName": "Nombre de la Empresa",
+        "companyNamePlaceholder": "Nombre de su empresa",
+        "website": "Sitio Web (URL)",
+        "websitePlaceholder": "https://suempresa.com",
+        "description": "¿Qué hace la empresa?",
+        "descriptionPlaceholder": "Describa brevemente su negocio",
+        "foundingYear": "Año de Fundación",
+        "industry": "Sector",
+        "subIndustry": "Sub-Sector",
         "back": "Volver",
         "next": "Siguiente: Datos de la Empresa",
         "complete": "Completar Registro",
-        "creating": "Creando Perfil..."
+        "creating": "Creando Perfil...",
+        "error": "Error al crear perfil y empresa. Inténtalo de nuevo."
     }
 }

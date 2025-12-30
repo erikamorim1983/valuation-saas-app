@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { createUserProfile } from '@/lib/supabase/userProfile';
+import { updateUserProfile } from '@/lib/supabase/userProfile';
 import { createUserCompany } from '@/lib/supabase/company';
 import { Button } from '@/components/ui/Button';
 
@@ -62,11 +62,11 @@ export default function BusinessOwnerOnboardingPage() {
         setLoading(true);
 
         try {
-            // Create user profile
-            await createUserProfile({
-                user_type: 'business_owner',
+            // Create/Update user profile
+            await updateUserProfile({
                 full_name: profileData.full_name,
-                phone: profileData.phone || undefined
+                phone: profileData.phone || undefined,
+                onboarding_completed: true
             });
 
             // Create company
@@ -83,7 +83,7 @@ export default function BusinessOwnerOnboardingPage() {
             router.push('/dashboard');
             router.refresh();
         } catch (error) {
-            alert('Erro ao criar perfil e empresa. Tente novamente.');
+            alert(t('error'));
             console.error(error);
         } finally {
             setLoading(false);
@@ -116,7 +116,7 @@ export default function BusinessOwnerOnboardingPage() {
                                     type="text"
                                     required
                                     className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-green-500 focus:ring-green-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white sm:text-sm"
-                                    placeholder="Seu nome completo"
+                                    placeholder={t('fullNamePlaceholder')}
                                     value={profileData.full_name}
                                     onChange={handleProfileChange}
                                 />
@@ -131,7 +131,7 @@ export default function BusinessOwnerOnboardingPage() {
                                     name="phone"
                                     type="tel"
                                     className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-green-500 focus:ring-green-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white sm:text-sm"
-                                    placeholder="+55 (11) 99999-9999"
+                                    placeholder={t('phonePlaceholder')}
                                     value={profileData.phone}
                                     onChange={handleProfileChange}
                                 />
@@ -178,7 +178,7 @@ export default function BusinessOwnerOnboardingPage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                    Nome da Empresa <span className="text-red-500">*</span>
+                                    {t('companyName')} <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     id="name"
@@ -186,20 +186,21 @@ export default function BusinessOwnerOnboardingPage() {
                                     type="text"
                                     required
                                     className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-green-500 focus:ring-green-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white sm:text-sm"
+                                    placeholder={t('companyNamePlaceholder')}
                                     value={companyData.name}
                                     onChange={handleCompanyChange}
                                 />
                             </div>
                             <div>
                                 <label htmlFor="website" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                    Site (URL)
+                                    {t('website')}
                                 </label>
                                 <input
                                     id="website"
                                     name="website"
                                     type="url"
                                     className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-green-500 focus:ring-green-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white sm:text-sm"
-                                    placeholder="https://"
+                                    placeholder={t('websitePlaceholder')}
                                     value={companyData.website}
                                     onChange={handleCompanyChange}
                                 />
@@ -208,7 +209,7 @@ export default function BusinessOwnerOnboardingPage() {
 
                         <div>
                             <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                O que a empresa faz? <span className="text-red-500">*</span>
+                                {t('description')} <span className="text-red-500">*</span>
                             </label>
                             <textarea
                                 id="description"
@@ -216,6 +217,7 @@ export default function BusinessOwnerOnboardingPage() {
                                 rows={3}
                                 required
                                 className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-green-500 focus:ring-green-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white sm:text-sm"
+                                placeholder={t('descriptionPlaceholder')}
                                 value={companyData.description}
                                 onChange={handleCompanyChange}
                             />
@@ -224,7 +226,7 @@ export default function BusinessOwnerOnboardingPage() {
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
                                 <label htmlFor="founding_year" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                    Ano de Fundação <span className="text-red-500">*</span>
+                                    {t('foundingYear')} <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     id="founding_year"
@@ -239,7 +241,7 @@ export default function BusinessOwnerOnboardingPage() {
 
                             <div>
                                 <label htmlFor="industry" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                    Setor <span className="text-red-500">*</span>
+                                    {t('industry')} <span className="text-red-500">*</span>
                                 </label>
                                 <select
                                     id="industry"
@@ -256,7 +258,7 @@ export default function BusinessOwnerOnboardingPage() {
 
                             <div>
                                 <label htmlFor="sub_industry" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                    Sub-Setor <span className="text-red-500">*</span>
+                                    {t('subIndustry')} <span className="text-red-500">*</span>
                                 </label>
                                 <select
                                     id="sub_industry"

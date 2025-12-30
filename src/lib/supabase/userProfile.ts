@@ -82,10 +82,14 @@ export async function createUserProfile(profileData: CreateUserProfileData): Pro
     return data as UserProfile;
 }
 
+export type UpdateUserProfileData = Partial<CreateUserProfileData> & {
+    onboarding_completed?: boolean;
+};
+
 /**
  * Update user profile
  */
-export async function updateUserProfile(updates: Partial<CreateUserProfileData>): Promise<UserProfile> {
+export async function updateUserProfile(updates: UpdateUserProfileData): Promise<UserProfile> {
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
@@ -100,6 +104,7 @@ export async function updateUserProfile(updates: Partial<CreateUserProfileData>)
 
     if (error) {
         console.error('Error updating user profile:', error);
+        console.error('Full error details:', JSON.stringify(error, null, 2));
         throw error;
     }
 
