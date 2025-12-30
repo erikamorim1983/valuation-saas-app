@@ -72,7 +72,7 @@ export function Navbar() {
                             isAuthenticated ? (
                                 <>
                                     <Link href={`/${locale}/dashboard`}>
-                                        <Button variant="ghost" size="sm">Dashboard</Button>
+                                        <Button variant="ghost" size="sm">{t('dashboard')}</Button>
                                     </Link>
                                     <Button
                                         variant="outline"
@@ -80,12 +80,12 @@ export function Navbar() {
                                         onClick={handleLogout}
                                         className="text-red-600 hover:text-red-700 hover:border-red-600 dark:text-red-400 dark:hover:text-red-300"
                                     >
-                                        Logout
+                                        {t('logout')}
                                     </Button>
                                 </>
                             ) : (
                                 <Link href="/login">
-                                    <Button size="sm">Acessar o Sistema</Button>
+                                    <Button size="sm">{t('signIn')}</Button>
                                 </Link>
                             )
                         )}

@@ -4,7 +4,9 @@
         "methodology": "Methodology",
         "pricing": "Pricing",
         "signIn": "Sign In",
-        "getStarted": "Get Started"
+        "getStarted": "Get Started",
+        "dashboard": "Dashboard",
+        "logout": "Logout"
     },
     "Hero": {
         "title": "Benchmarking & Valuation for Businesses",

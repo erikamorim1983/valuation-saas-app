@@ -4,7 +4,9 @@
         "methodology": "Metodologia",
         "pricing": "Preços",
         "signIn": "Entrar",
-        "getStarted": "Começar Agora"
+        "getStarted": "Começar Agora",
+        "dashboard": "Dashboard",
+        "logout": "Sair"
     },
     "Hero": {
         "title": "Benchmarking & Valuation para Empresas",
