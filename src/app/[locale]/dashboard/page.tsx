@@ -36,61 +36,79 @@ export default function DashboardPage() {
         if (!latestValuation) return;
         setGeneratingPDF(true);
 
-        try {
-            const reportElement = document.getElementById('valuation-report-template');
-            if (!reportElement) throw new Error('Report template not found');
+        const reportId = 'valuation-report-template';
+        const reportElement = document.getElementById(reportId);
 
-            // Temporarily show the element off-screen for capture
+        if (!reportElement) {
+            alert('Template do relatório não encontrado.');
+            setGeneratingPDF(false);
+            return;
+        }
+
+        try {
+            // Ensure element is visible and has layout for capture
+            // We use fixed and a large negative left to keep it off-screen but "in the flow"
+            const originalStyles = {
+                position: reportElement.style.position,
+                left: reportElement.style.left,
+                top: reportElement.style.top,
+                display: reportElement.style.display,
+                visibility: reportElement.style.visibility,
+                opacity: reportElement.style.opacity,
+            };
+
             reportElement.style.position = 'fixed';
-            reportElement.style.left = '-9999px';
+            reportElement.style.left = '-10000px';
             reportElement.style.top = '0';
             reportElement.style.display = 'block';
+            reportElement.style.visibility = 'visible';
+            reportElement.style.opacity = '1';
 
             const canvas = await html2canvas(reportElement, {
-                scale: 2, // High resolution
+                scale: 2,
                 useCORS: true,
                 logging: false,
                 backgroundColor: '#ffffff',
                 onclone: (clonedDoc) => {
-                    const template = clonedDoc.getElementById('valuation-report-template');
-                    if (template) {
-                        template.style.display = 'block';
-                        // Optional: strip modern colors that html2canvas cannot parse
-                        const allElements = template.getElementsByTagName('*');
-                        for (let i = 0; i < allElements.length; i++) {
-                            const el = allElements[i] as HTMLElement;
-                            // html2canvas fails on oklch/lab colors. Tailwind 4 uses them extensively.
-                            // We already use inline styles in ReportView, but this is a safety net.
-                        }
+                    const clonedElement = clonedDoc.getElementById(reportId);
+                    if (clonedElement) {
+                        clonedElement.style.display = 'block';
+                        clonedElement.style.visibility = 'visible';
+                        clonedElement.style.opacity = '1';
+                        clonedElement.style.position = 'relative';
+                        clonedElement.style.left = '0';
                     }
                 }
             });
 
+            // Restore original styles immediately
+            Object.assign(reportElement.style, originalStyles);
+
             const imgData = canvas.toDataURL('image/png');
+
+            if (!imgData || imgData === 'data:,') {
+                throw new Error('Falha ao capturar imagem do relatório.');
+            }
+
             const pdf = new jsPDF({
                 orientation: 'portrait',
                 unit: 'mm',
                 format: 'a4'
             });
 
-            const imgProps = pdf.getImageProperties(imgData);
             const pdfWidth = pdf.internal.pageSize.getWidth();
+            const imgProps = pdf.getImageProperties(imgData);
             const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
+            // Auto-detect format from data URL
             pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
             pdf.save(`Valuation_${latestValuation.company_name.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`);
 
-            // Hide again
-            reportElement.style.display = 'none';
         } catch (error: any) {
-            console.error('Full error object:', error);
-            console.error('Error message:', error.message);
-            alert(`Erro ao gerar PDF: ${error.message || 'Erro desconhecido'}. Tente novamente.`);
+            console.error('PDF Generation Error:', error);
+            alert(`Erro ao gerar PDF: ${error.message || 'Erro desconhecido'}`);
         } finally {
             setGeneratingPDF(false);
-            // Ensure cleanup
-            const reportElement = document.getElementById('valuation-report-template');
-            if (reportElement) reportElement.style.display = 'none';
         }
     };
 
@@ -320,7 +338,13 @@ export default function DashboardPage() {
 
             {/* Hidden Report Template for PDF Generation */}
             {latestValuation && latestValuation.valuation_result?.partnerValuation && (
-                <div style={{ display: 'none' }}>
+                <div style={{
+                    position: 'absolute',
+                    left: '-10000px',
+                    top: '0',
+                    opacity: '0',
+                    pointerEvents: 'none'
+                }}>
                     <ReportView
                         companyName={latestValuation.company_name}
                         sector={latestValuation.sector}
