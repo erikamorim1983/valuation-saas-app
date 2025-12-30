@@ -50,7 +50,20 @@ export default function DashboardPage() {
                 scale: 2, // High resolution
                 useCORS: true,
                 logging: false,
-                backgroundColor: '#ffffff'
+                backgroundColor: '#ffffff',
+                onclone: (clonedDoc) => {
+                    const template = clonedDoc.getElementById('valuation-report-template');
+                    if (template) {
+                        template.style.display = 'block';
+                        // Optional: strip modern colors that html2canvas cannot parse
+                        const allElements = template.getElementsByTagName('*');
+                        for (let i = 0; i < allElements.length; i++) {
+                            const el = allElements[i] as HTMLElement;
+                            // html2canvas fails on oklch/lab colors. Tailwind 4 uses them extensively.
+                            // We already use inline styles in ReportView, but this is a safety net.
+                        }
+                    }
+                }
             });
 
             const imgData = canvas.toDataURL('image/png');
@@ -69,11 +82,15 @@ export default function DashboardPage() {
 
             // Hide again
             reportElement.style.display = 'none';
-        } catch (error) {
-            console.error('Error generating PDF:', error);
-            alert('Erro ao gerar PDF. Tente novamente.');
+        } catch (error: any) {
+            console.error('Full error object:', error);
+            console.error('Error message:', error.message);
+            alert(`Erro ao gerar PDF: ${error.message || 'Erro desconhecido'}. Tente novamente.`);
         } finally {
             setGeneratingPDF(false);
+            // Ensure cleanup
+            const reportElement = document.getElementById('valuation-report-template');
+            if (reportElement) reportElement.style.display = 'none';
         }
     };
 
