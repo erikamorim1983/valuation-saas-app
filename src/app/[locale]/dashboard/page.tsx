@@ -180,8 +180,8 @@ export default function DashboardPage() {
                 // Fetch Benchmark Comparables
                 const comparables = await getBenchmarkComparables(
                     businessContext.sector,
-                    businessContext.subSector,
-                    financialData?.revenue || 1000000
+                    businessContext,
+                    5
                 );
 
                 const userRevenue = financialData?.revenue || 1;
