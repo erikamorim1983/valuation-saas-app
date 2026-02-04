@@ -74,39 +74,71 @@ export async function calculateBenchmarkComparison(
 
   // Calculate statistics for each metric
   const revenueStats = calculateStats(benchmarks.map(b => b.annualRevenue));
-  const multipleStats = calculateStats(benchmarks.map(b => b.valuationMultiple));
+  
+  const multipleStats = calculateStats(
+    benchmarks
+        .map(b => b.valuationMultiple)
+        .filter((v): v is number => v !== undefined && v !== null)
+  );
+
   const growthStats = calculateStats(
-    benchmarks.filter(b => b.revenueGrowthRate !== null).map(b => b.revenueGrowthRate!)
+    benchmarks
+        .map(b => b.growthRate)
+        .filter((v): v is number => v !== undefined && v !== null)
   );
+
   const marginStats = calculateStats(
-    benchmarks.filter(b => b.ebitdaMargin !== null).map(b => b.ebitdaMargin!)
+    benchmarks
+        .map(b => b.ebitdaMargin)
+        .filter((v): v is number => v !== undefined && v !== null)
   );
+
   const churnStats = calculateStats(
-    benchmarks.filter(b => b.churnRate !== null).map(b => b.churnRate!)
+    benchmarks
+        .map(b => b.churnRate)
+        .filter((v): v is number => v !== undefined && v !== null)
   );
+  
   const nrrStats = calculateStats(
-    benchmarks.filter(b => b.nrr !== null).map(b => b.nrr!)
+    benchmarks
+        .map(b => b.nrr)
+        .filter((v): v is number => v !== undefined && v !== null)
   );
 
   // Calculate percentiles for user's metrics
   const revenuePercentile = calculatePercentile(userMetrics.revenue, benchmarks.map(b => b.annualRevenue));
-  const multiplePercentile = calculatePercentile(userMetrics.valuationMultiple, benchmarks.map(b => b.valuationMultiple));
+  
+  const multiplePercentile = calculatePercentile(
+      userMetrics.valuationMultiple, 
+      benchmarks
+        .map(b => b.valuationMultiple)
+        .filter((v): v is number => v !== undefined && v !== null)
+  );
+
   const growthPercentile = userMetrics.growthRate
     ? calculatePercentile(
         userMetrics.growthRate,
-        benchmarks.filter(b => b.revenueGrowthRate !== null).map(b => b.revenueGrowthRate!)
+        benchmarks
+            .map(b => b.growthRate)
+            .filter((v): v is number => v !== undefined && v !== null)
       )
     : null;
+
   const marginPercentile = userMetrics.ebitdaMargin
     ? calculatePercentile(
         userMetrics.ebitdaMargin,
-        benchmarks.filter(b => b.ebitdaMargin !== null).map(b => b.ebitdaMargin!)
+        benchmarks
+            .map(b => b.ebitdaMargin)
+            .filter((v): v is number => v !== undefined && v !== null)
       )
     : null;
+
   const churnPercentile = userMetrics.churnRate
     ? calculatePercentile(
         userMetrics.churnRate,
-        benchmarks.filter(b => b.churnRate !== null).map(b => b.churnRate!),
+        benchmarks
+            .map(b => b.churnRate)
+            .filter((v): v is number => v !== undefined && v !== null),
         true // Lower is better for churn
       )
     : null;
@@ -184,7 +216,28 @@ export async function calculateBenchmarkComparison(
   }
 
   return {
-    companies: benchmarks.slice(0, 5), // Top 5 for display
+    userCompany: {
+      name: 'Your Company',
+      multiple: userMetrics.valuationMultiple,
+      growthRate: userMetrics.growthRate || 0,
+      ebitdaMargin: userMetrics.ebitdaMargin || 0,
+      qualityScore: userMetrics.qualityScore,
+      churnRate: userMetrics.churnRate,
+      nrr: userMetrics.nrr,
+      ltvcacRatio: userMetrics.ltv && userMetrics.cac ? userMetrics.ltv / userMetrics.cac : undefined
+    },
+    benchmarks: benchmarks.slice(0, 5), // Top 5 for display
+    
+    // Gaps Analysis
+    multipleGap: multipleStats.median ? userMetrics.valuationMultiple - multipleStats.median : 0,
+    growthGap: growthStats.median && userMetrics.growthRate ? userMetrics.growthRate - growthStats.median : 0,
+    qualityGap: 0, // Placeholder as we don't benchmark quality score yet
+
+    // Percentiles
+    multiplePercentile: multiplePercentile || 50,
+    growthPercentile: growthPercentile || 50,
+    qualityPercentile: 50,
+
     statistics: {
       revenue: revenueStats,
       valuationMultiple: multipleStats,

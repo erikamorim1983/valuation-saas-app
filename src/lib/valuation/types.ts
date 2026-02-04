@@ -161,7 +161,8 @@ export interface BusinessContext {
     subSector: string;
     businessModel?: string;
     
-    // Size (auto-calculated from revenue)
+    // Size
+    revenue?: number;
     sizeBracket?: SizeBracket;
     
     // Revenue Quality (SaaS/Subscription specific)
@@ -304,6 +305,40 @@ export interface BenchmarkComparison {
     multipleGap: number;                  // Difference to median benchmark
     growthGap: number;
     qualityGap: number;
+
+    // Detailed Gaps Analysis
+    gaps?: {
+        metric: string;
+        userValue: number;
+        benchmarkValue: number;
+        percentile: number;
+        gap: number;
+        gapPercent: number;
+        severity: 'critical' | 'high' | 'medium' | 'low';
+    }[];
+
+    // Overall Standing
+    overallPosition?: number;
+    sampleSize?: number;
+    
+    // Detailed Statistics (for charts)
+    statistics?: {
+        revenue: { min: number; max: number; median: number; p25: number; p75: number };
+        valuationMultiple: { min: number; max: number; median: number; p25: number; p75: number };
+        revenueGrowth: { min: number; max: number; median: number; p25: number; p75: number };
+        ebitdaMargin: { min: number; max: number; median: number; p25: number; p75: number };
+        churnRate: { min: number; max: number; median: number; p25: number; p75: number };
+        nrr: { min: number; max: number; median: number; p25: number; p75: number };
+    };
+
+    userPercentiles?: {
+        revenue: number;
+        valuationMultiple: number;
+        revenueGrowth: number | null;
+        ebitdaMargin: number | null;
+        churnRate: number | null;
+        nrr: number | null;
+    };
 }
 
 export interface ImprovementAction {
@@ -311,6 +346,7 @@ export interface ImprovementAction {
     category: 'operations' | 'revenue_quality' | 'moat' | 'team' | 'financial' | 'growth';
     title: string;
     description: string;
+    actionTitle?: string; // For compatibility
     
     // Impact
     pillarImpact?: string;                // Which pillar: ops, rec, conc, grow, risk
@@ -320,7 +356,9 @@ export interface ImprovementAction {
     // Implementation
     difficulty: 'easy' | 'moderate' | 'hard' | 'very_hard';
     timeToImplement: string;              // "1-2 weeks", "1-3 months", etc
+    estimatedTimeMonths?: number;         // Numeric estimate
     estimatedCostUSD?: number;
+    estimatedCost?: number;               // Alias for compatibility
     
     // Calculated for user
     calculatedPriority?: number;          // 0-100 based on user gaps

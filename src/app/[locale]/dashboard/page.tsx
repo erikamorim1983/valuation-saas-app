@@ -190,8 +190,9 @@ export default function DashboardPage() {
                 const userMultiple = userRevenue > 0 ? userVal / userRevenue : 0;
 
                 // Calculate market average from comparables
-                const marketAvg = comparables.length > 0
-                    ? comparables.reduce((sum, c) => sum + c.valuationMultiple, 0) / comparables.length
+                const validComparables = comparables.filter(c => c.valuationMultiple !== undefined && c.valuationMultiple !== null);
+                const marketAvg = validComparables.length > 0
+                    ? validComparables.reduce((sum, c) => sum + (c.valuationMultiple || 0), 0) / validComparables.length
                     : 4.5;
 
                 setBenchData({
