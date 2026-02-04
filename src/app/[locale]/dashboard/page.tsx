@@ -209,8 +209,8 @@ export default function DashboardPage() {
                 });
 
                 // Generate Improvement Plan
-                const valuationResult = latestValuation.valuation_result?.advancedValuation || 
-                                       latestValuation.valuation_result?.partnerValuation;
+                const valuationResult = latestValuation.valuation_result?.partnerValuation || 
+                                       (latestValuation.valuation_result as any)?.advancedValuation;
                 
                 if (valuationResult) {
                     const improvementPlan = await generateImprovementPlan(
