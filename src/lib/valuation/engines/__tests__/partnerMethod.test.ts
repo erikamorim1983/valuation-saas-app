@@ -52,8 +52,8 @@ describe('calculatePartnerValuation', () => {
 
       expect(result.method).toBe('Advanced');
       expect(result.value).toBeGreaterThan(0);
-      expect(result.details.weightedEbitda).toBeGreaterThan(0);
-      expect(result.details.chosenMultiple).toBeGreaterThan(0);
+      expect(result.details?.weightedEbitda).toBeGreaterThan(0);
+      expect(result.details?.chosenMultiple).toBeGreaterThan(0);
     });
 
     it('should apply weighted average to 3 years of history', () => {
@@ -66,7 +66,7 @@ describe('calculatePartnerValuation', () => {
         (h[1].ebitda + h[1].addbacks - h[1].ownerAdj - h[1].oneTime) * 0.30 +
         (h[2].ebitda + h[2].addbacks - h[2].ownerAdj - h[2].oneTime) * 0.50;
 
-      expect(result.details.weightedEbitda).toBeCloseTo(expectedWeighted, 0);
+      expect(result.details?.weightedEbitda).toBeCloseTo(expectedWeighted, 0);
     });
 
     it('should calculate CAGR correctly', () => {
@@ -75,7 +75,7 @@ describe('calculatePartnerValuation', () => {
       // CAGR from 800k to 1000k over 2 years
       const expectedCAGR = (Math.pow(1000000 / 800000, 1 / 2) - 1) * 100;
 
-      expect(result.details.cagr).toBeCloseTo(expectedCAGR, 1);
+      expect(result.details?.cagr).toBeCloseTo(expectedCAGR, 1);
     });
 
     it('should adjust equity value with cash and debt', () => {
@@ -97,7 +97,7 @@ describe('calculatePartnerValuation', () => {
       const result = calculatePartnerValuation(negativeData, baseParams);
 
       expect(result.value).toBe(0);
-      expect(result.details.message).toContain('Negative Normalized EBITDA');
+      expect(result.details?.message).toContain('Negative Normalized EBITDA');
     });
 
     it('should handle 2 years of history with correct weights', () => {
@@ -109,7 +109,7 @@ describe('calculatePartnerValuation', () => {
       const result = calculatePartnerValuation(twoYearData, baseParams);
 
       expect(result.value).toBeGreaterThan(0);
-      expect(result.details.weightedEbitda).toBeGreaterThan(0);
+      expect(result.details?.weightedEbitda).toBeGreaterThan(0);
     });
 
     it('should handle 1 year of history', () => {
@@ -145,7 +145,7 @@ describe('calculatePartnerValuation', () => {
 
       expect(result.method).toBe('Advanced (Startup)');
       expect(result.value).toBeGreaterThan(0);
-      expect(result.details.isStartup).toBe(true);
+      expect(result.details?.isStartup).toBe(true);
     });
 
     it('should return zero for startup with no projected revenue', () => {
@@ -153,14 +153,14 @@ describe('calculatePartnerValuation', () => {
       const result = calculatePartnerValuation(noRevenueData, baseParams);
 
       expect(result.value).toBe(0);
-      expect(result.details.error).toContain('Projected Revenue is required');
+      expect(result.details?.error).toContain('Projected Revenue is required');
     });
 
     it('should use revenue multiples instead of EBITDA multiples', () => {
       const result = calculatePartnerValuation(startupData, baseParams);
 
-      expect(result.details.weightedEbitda).toBe(0);
-      expect(result.details.chosenMultiple).toBeGreaterThan(0);
+      expect(result.details?.weightedEbitda).toBe(0);
+      expect(result.details?.chosenMultiple).toBeGreaterThan(0);
     });
 
     it('should adjust startup valuation with cash and debt', () => {

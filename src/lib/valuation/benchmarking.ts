@@ -340,14 +340,14 @@ export function generateBenchmarkInsights(comparison: BenchmarkComparison): stri
     'below-average': '📉',
     'poor': '⚠️'
   };
-  const emoji = positionEmoji[comparison.overallPosition] || '➡️';
+  const emoji = positionEmoji[comparison.overallPosition] ?? '➡️';
 
   insights.push(
-    `${positionEmoji} Your company is in the **${comparison.overallPosition}** position compared to ${comparison.sampleSize} similar companies.`
+    `${emoji} Your company is in the **${comparison.overallPosition}** position compared to ${comparison.sampleSize} similar companies.`
   );
 
   // Critical gaps
-  const criticalGaps = comparison.gaps.filter((g: any) => g.severity === 'critical');
+  const criticalGaps = comparison.gaps?.filter((g: any) => g.severity === 'critical') ?? [];
   if (criticalGaps.length > 0) {
     insights.push(
       `🚨 **Critical areas needing attention**: ${criticalGaps.map((g: any) => g.metric).join(', ')}`
@@ -355,7 +355,7 @@ export function generateBenchmarkInsights(comparison: BenchmarkComparison): stri
   }
 
   // Strengths
-  const strengths = comparison.gaps.filter((g: any) => g.percentile >= 75);
+  const strengths = comparison.gaps?.filter((g: any) => g.percentile >= 75) ?? [];
   if (strengths.length > 0) {
     insights.push(
       `💪 **Your strengths**: ${strengths.map((g: any) => g.metric).join(', ')} (top 25%)`
@@ -363,7 +363,7 @@ export function generateBenchmarkInsights(comparison: BenchmarkComparison): stri
   }
 
   // Specific metric insights
-  comparison.gaps.forEach(gap => {
+  comparison.gaps?.forEach(gap => {
     if (gap.severity === 'critical' || gap.severity === 'high') {
       const direction = gap.gap < 0 ? 'below' : 'above';
       const absGapPercent = Math.abs(gap.gapPercent).toFixed(0);
@@ -375,7 +375,7 @@ export function generateBenchmarkInsights(comparison: BenchmarkComparison): stri
   });
 
   // Valuation opportunity
-  const multipleGap = comparison.gaps.find((g: any) => g.metric === 'Valuation Multiple');
+  const multipleGap = comparison.gaps?.find((g: any) => g.metric === 'Valuation Multiple');
   if (multipleGap && multipleGap.gap < 0) {
     const potentialIncrease = Math.abs(multipleGap.gapPercent).toFixed(0);
     insights.push(

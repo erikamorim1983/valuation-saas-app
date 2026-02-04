@@ -200,11 +200,11 @@ export default function DashboardPage() {
                     marketAvg,
                     userValue: userMultiple,
                     comparables: comparables.map(c => ({
-                        name: c.name,
+                        name: c.companyName,
                         sector: c.sector,
-                        revenue: c.revenue,
+                        revenue: c.annualRevenue,
                         multiple: c.valuationMultiple,
-                        similarity: c.similarityScore
+                        similarity: (c as any).similarityScore
                     }))
                 });
 

@@ -76,22 +76,22 @@ export async function generateImprovementPlan(
   const timeline = createImplementationTimeline(prioritizedActions.slice(0, 15));
 
   return {
+    valuationId: '',
     currentValuation,
     targetValuation: currentValuation + totalPotentialIncrease,
+    totalPotentialIncrease,
     potentialIncrease: totalPotentialIncrease,
     potentialIncreasePercent: (totalPotentialIncrease / currentValuation) * 100,
     topActions: prioritizedActions.slice(0, 10),
     quickWins: quickWins.slice(0, 5),
     strategicInitiatives: strategicInitiatives.slice(0, 5),
     timeline,
-    estimatedTimeToTarget: Math.max(
-      ...topActions.map((a: any) => parseTimeframe(a.timeToImplement))
-    ),
+    estimatedTimeToTarget: createImplementationTimeline(prioritizedActions.slice(0, 15))[2]?.months || "6-12 months",
     totalEstimatedCost: topActions.reduce(
       (sum, action: any) => sum + (action.estimatedCostUSD || 0),
       0
     )
-  };
+  } as any;
 }
 
 // Helper to parse timeframe string like "3 months" to number
@@ -159,9 +159,9 @@ function calculateRelevanceScore(action: ImprovementAction, gaps: Gap[]): number
     'risk': ['Quality Score', 'EBITDA Margin']
   };
 
-  const relatedMetrics = pillarMapping[action.pillarImpact] || [];
+  const relatedMetrics = pillarMapping[action.pillarImpact || ''] || [];
   const relatedGaps = gaps.filter(gap =>
-    relatedMetrics.some(metric => gap.metric.includes(metric))
+    relatedMetrics.some((metric: string) => gap.metric.includes(metric))
   );
 
   if (relatedGaps.length === 0) return 50; // Neutral if no direct gaps
@@ -196,9 +196,9 @@ function calculateFeasibilityScore(
   }
 
   // Time adjustment
-  if (action.estimatedTimeMonths <= 2) {
+  if ((action.estimatedTimeMonths ?? 3) <= 2) {
     score += 10;
-  } else if (action.estimatedTimeMonths > 6) {
+  } else if ((action.estimatedTimeMonths ?? 3) > 6) {
     score -= 10;
   }
 
@@ -242,9 +242,9 @@ function generateActionReasoning(
   }
 
   // Time reasoning
-  if (action.estimatedTimeMonths <= 2) {
-    reasoning.push(`Quick win - can be implemented in ${action.estimatedTimeMonths} month${action.estimatedTimeMonths > 1 ? 's' : ''}`);
-  } else if (action.estimatedTimeMonths > 6) {
+  if ((action.estimatedTimeMonths ?? 3) <= 2) {
+    reasoning.push(`Quick win - can be implemented in ${action.estimatedTimeMonths} month${(action.estimatedTimeMonths ?? 1) > 1 ? 's' : ''}`);
+  } else if ((action.estimatedTimeMonths ?? 3) > 6) {
     reasoning.push(`Strategic initiative - ${action.estimatedTimeMonths} month timeline`);
   }
 
@@ -264,8 +264,9 @@ function generateActionReasoning(
     'risk': 'Reduces business risk and improves governance'
   };
 
-  if (pillarDescriptions[action.pillarImpact]) {
-    reasoning.push(pillarDescriptions[action.pillarImpact]);
+  const pillarKey = action.pillarImpact || '';
+  if (pillarDescriptions[pillarKey]) {
+    reasoning.push(pillarDescriptions[pillarKey]);
   }
 
   return reasoning;
@@ -347,7 +348,7 @@ export function simulateImpact(
   breakdown: { actionTitle: string; increase: number }[];
 } {
   const breakdown = selectedActions.map(action => ({
-    actionTitle: action.actionTitle,
+    actionTitle: action.actionTitle || action.title,
     increase: currentValuation * (action.valuationImpactPercent / 100)
   }));
 

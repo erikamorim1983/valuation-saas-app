@@ -307,7 +307,7 @@ export interface BenchmarkComparison {
     qualityGap: number;
 
     // Detailed Gaps Analysis
-    gaps?: {
+    gaps: {
         metric: string;
         userValue: number;
         benchmarkValue: number;
@@ -318,7 +318,7 @@ export interface BenchmarkComparison {
     }[];
 
     // Overall Standing
-    overallPosition?: number;
+    overallPosition: 'excellent' | 'above-average' | 'average' | 'below-average' | 'poor';
     sampleSize?: number;
     
     // Detailed Statistics (for charts)
@@ -371,15 +371,21 @@ export interface ImprovementPlan {
     targetValuation: number;
     
     // Prioritized actions
-    actions: ImprovementAction[];
+    actions?: ImprovementAction[];
+    topActions?: ImprovementAction[];
     
     // Summary
     totalPotentialIncrease: number;
-    quickWins: ImprovementAction[];       // Easy + high impact
-    strategicActions: ImprovementAction[]; // Hard but very high impact
+    potentialIncrease?: number;           // Alias for totalPotentialIncrease
+    potentialIncreasePercent?: number;    // Percentage increase
+    quickWins?: ImprovementAction[];       // Easy + high impact
+    strategicActions?: ImprovementAction[]; // Hard but very high impact
+    strategicInitiatives?: ImprovementAction[]; // Alias
     
     // Timeline
-    estimatedTimeToTarget: string;        // "3-6 months", "6-12 months"
+    timeline?: any[];
+    estimatedTimeToTarget?: string;        // "3-6 months", "6-12 months"
+    totalEstimatedCost?: number;
 }
 
 // ================================================================
