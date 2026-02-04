@@ -185,8 +185,8 @@ export default function DashboardPage() {
                 );
 
                 const userRevenue = financialData?.revenue || 1;
-                const userVal = latestValuation.valuation_result?.advancedValuation?.value || 
-                               latestValuation.valuation_result?.partnerValuation?.value || 0;
+                const userVal = latestValuation.valuation_result?.partnerValuation?.value || 
+                               (latestValuation.valuation_result as any)?.value || 0;
                 const userMultiple = userRevenue > 0 ? userVal / userRevenue : 0;
 
                 // Calculate market average from comparables
