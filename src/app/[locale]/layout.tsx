@@ -3,6 +3,7 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { Toaster } from 'react-hot-toast';
 import "../globals.css";
 
 export default async function LocaleLayout({
@@ -27,6 +28,7 @@ export default async function LocaleLayout({
     <html lang={locale}>
       <body className="antialiased flex flex-col min-h-screen">
         <NextIntlClientProvider messages={messages}>
+          <Toaster />
           <Navbar />
           <main className="flex-grow">
             {children}

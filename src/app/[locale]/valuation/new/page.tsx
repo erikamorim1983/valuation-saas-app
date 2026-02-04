@@ -4,7 +4,9 @@ import { WizardLayout } from '@/components/wizard/WizardLayout';
 import { WizardProvider, useWizard } from '@/components/wizard/WizardContext';
 import StepIdentification from '@/components/wizard/StepIdentification';
 import StepFinancials from '@/components/wizard/StepFinancials';
+import StepRevenueQuality from '@/components/wizard/StepRevenueQuality';
 import StepQualitative from '@/components/wizard/StepQualitative';
+import StepMoat from '@/components/wizard/StepMoat';
 import StepReview from '@/components/wizard/StepReview';
 
 function WizardContent() {
@@ -15,8 +17,12 @@ function WizardContent() {
             return <StepIdentification />;
         case 'financials':
             return <StepFinancials />;
+        case 'revenueQuality':
+            return <StepRevenueQuality />;
         case 'qualitative':
             return <StepQualitative />;
+        case 'moat':
+            return <StepMoat />;
         case 'review':
             return <StepReview />;
         default:

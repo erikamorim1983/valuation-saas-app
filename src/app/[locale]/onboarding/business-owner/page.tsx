@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { updateUserProfile } from '@/lib/supabase/userProfile';
+import { createUserProfile, updateUserProfile, getUserProfile } from '@/lib/supabase/userProfile';
 import { createUserCompany } from '@/lib/supabase/company';
 import { Button } from '@/components/ui/Button';
 
@@ -62,14 +62,34 @@ export default function BusinessOwnerOnboardingPage() {
         setLoading(true);
 
         try {
-            // Create/Update user profile
-            await updateUserProfile({
-                full_name: profileData.full_name,
-                phone: profileData.phone || undefined,
-                onboarding_completed: true
-            });
+            console.log('[Onboarding] Starting company creation...');
+            console.log('[Onboarding] Profile data:', profileData);
+            console.log('[Onboarding] Company data:', companyData);
+            
+            // Step 1: Check if profile exists, create or update
+            console.log('[Onboarding] Step 1: Checking for existing profile...');
+            const existingProfile = await getUserProfile();
+            
+            if (existingProfile) {
+                console.log('[Onboarding] Profile exists, updating...');
+                await updateUserProfile({
+                    full_name: profileData.full_name,
+                    phone: profileData.phone || undefined,
+                    onboarding_completed: true
+                });
+            } else {
+                console.log('[Onboarding] No profile found, creating new profile...');
+                await createUserProfile({
+                    full_name: profileData.full_name,
+                    phone: profileData.phone || undefined,
+                    user_type: 'business_owner',
+                    onboarding_completed: true
+                });
+            }
+            console.log('[Onboarding] Step 1: Profile setup completed successfully');
 
-            // Create company
+            // Step 2: Create company
+            console.log('[Onboarding] Step 2: Creating company...');
             await createUserCompany({
                 name: companyData.name,
                 website: companyData.website,
@@ -78,11 +98,14 @@ export default function BusinessOwnerOnboardingPage() {
                 founding_year: Number(companyData.founding_year),
                 description: companyData.description
             });
+            console.log('[Onboarding] Step 2: Company created successfully');
 
             // Redirect to dashboard
+            console.log('[Onboarding] Redirecting to dashboard...');
             router.push('/dashboard');
             router.refresh();
         } catch (error) {
+            console.error('[Onboarding] Error:', error);
             alert(t('error'));
             console.error(error);
         } finally {

@@ -8,6 +8,7 @@ import { useLocale } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { Logo } from '@/components/ui/Logo';
 
 export function Navbar() {
     const t = useTranslations('Navbar');
@@ -15,38 +16,70 @@ export function Navbar() {
     const router = useRouter();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [isInitialized, setIsInitialized] = useState(false);
 
     useEffect(() => {
         const supabase = createClient();
+        let mounted = true;
 
         // Check initial auth state
         const checkAuth = async () => {
-            const { data: { user } } = await supabase.auth.getUser();
-            console.log('🔍 Navbar - User check:', user ? 'Logged in' : 'Not logged in');
-            setIsAuthenticated(!!user);
-            setLoading(false);
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
+                
+                if (!mounted) return;
+                
+                console.log('🔍 Navbar - User check:', user ? 'Logged in' : 'Not logged in');
+                setIsAuthenticated(!!user);
+            } catch (error) {
+                console.error('❌ Navbar - Error checking auth:', error);
+                if (mounted) {
+                    setIsAuthenticated(false);
+                }
+            } finally {
+                if (mounted) {
+                    setLoading(false);
+                    setIsInitialized(true);
+                }
+            }
         };
 
         checkAuth();
 
-        // Listen for auth changes
+        // Listen for auth changes only after initialization
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            if (!mounted || !isInitialized) return;
+            
             console.log('🔄 Navbar - Auth state changed:', _event, session?.user ? 'Logged in' : 'Logged out');
             setIsAuthenticated(!!session?.user);
         });
 
         return () => {
+            mounted = false;
             subscription.unsubscribe();
         };
-    }, []);
+    }, [isInitialized]);
 
     const handleLogout = async () => {
+        if (loading || !isInitialized) {
+            console.warn('⚠️ Navbar - Logout attempted before auth initialization');
+            return;
+        }
+
         console.log('🚪 Logout button clicked');
-        const supabase = createClient();
-        await supabase.auth.signOut();
-        setIsAuthenticated(false);
-        router.push(`/${locale}`);
-        router.refresh();
+        setLoading(true);
+        
+        try {
+            const supabase = createClient();
+            await supabase.auth.signOut();
+            setIsAuthenticated(false);
+            router.push(`/${locale}`);
+            router.refresh();
+        } catch (error) {
+            console.error('❌ Navbar - Error during logout:', error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -54,9 +87,7 @@ export function Navbar() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16 items-center">
                     <div className="flex-shrink-0 flex items-center">
-                        <Link href={`/${locale}`} className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-blue-600">
-                            BrixAurea Valuation
-                        </Link>
+                        <Logo href={`/${locale}`} size="md" />
                     </div>
                     <div className="hidden md:flex items-center space-x-8">
                         <Link href={`/${locale}/features`} className="text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors">

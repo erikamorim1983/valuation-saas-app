@@ -3,4 +3,7 @@ export * from './engines/dcf';
 export * from './engines/multiples';
 export * from './engines/earningsScalar';
 export * from './engines/qualitative';
-export * from './engines/partnerMethod'; // New Export
+export * from './engines/partnerMethod';
+export * from './engines/advancedEngine';
+export * from './benchmarking';
+export * from './recommendations';

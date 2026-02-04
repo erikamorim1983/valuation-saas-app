@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { useTranslations, useLocale } from 'next-intl';
+import { Logo } from '@/components/ui/Logo';
 
 export function Footer() {
     const t = useTranslations('Footer');
@@ -8,6 +9,13 @@ export function Footer() {
     return (
         <footer className="bg-gray-50 dark:bg-zinc-900 border-t border-gray-200 dark:border-zinc-800 mt-auto">
             <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+                {/* Logo Section */}
+                <div className="flex justify-center mb-8">
+                    <div className="bg-white dark:bg-zinc-800 px-6 py-4 rounded-xl shadow-lg">
+                        <Logo href={`/${locale}`} size="lg" />
+                    </div>
+                </div>
+                
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                     <div>
                         <h3 className="text-sm font-semibold text-gray-900 dark:text-zinc-100 tracking-wider uppercase mb-4">{t('product')}</h3>

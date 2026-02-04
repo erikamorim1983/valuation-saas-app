@@ -31,12 +31,12 @@ export function useValuationSimulator(initialValuation: ValuationRecord) {
             if (isStartup) {
                 driverValue = financials.projectedRevenueYear1 || 0;
                 // Reverse engineer base multiple if needed, or use stored
-                multiple = baseResult.details.chosenMultiple;
+                multiple = baseResult.details.chosenMultiple ?? 1.0; // Fallback to 1.0
                 cagr = 50; // Startup proxy
             } else {
-                driverValue = baseResult.details.weightedEbitda || 0;
-                multiple = baseResult.details.chosenMultiple;
-                cagr = baseResult.details.cagr || 0;
+                driverValue = baseResult.details.weightedEbitda ?? 0; // Fallback to 0
+                multiple = baseResult.details.chosenMultiple ?? 5.0; // Fallback to 5.0
+                cagr = baseResult.details.cagr ?? 0; // Fallback to 0
             }
         }
         return { driverValue, multiple, cagr };

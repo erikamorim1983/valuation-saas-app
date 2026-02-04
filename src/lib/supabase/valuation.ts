@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/client';
 import { FinancialData, ValuationResult, ValuationParams } from '@/lib/valuation/types';
+import { showError } from '@/lib/toast';
 
 export type ValuationStatus = 'draft' | 'completed';
 
@@ -24,7 +25,11 @@ export async function getValuation(id: string) {
         .eq('id', id)
         .single();
 
-    if (error) throw error;
+    if (error) {
+        console.error('[getValuation] Error:', error);
+        showError('Failed to load valuation');
+        throw error;
+    }
     return data as ValuationRecord;
 }
 
@@ -32,7 +37,11 @@ export async function createValuation(data: Partial<ValuationRecord>) {
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
-    if (!user) throw new Error('User not authenticated');
+    if (!user) {
+        console.error('[createValuation] User not authenticated');
+        showError('You must be logged in to create a valuation');
+        throw new Error('User not authenticated');
+    }
 
     const { data: newValuation, error } = await supabase
         .from('valuations')
@@ -48,7 +57,11 @@ export async function createValuation(data: Partial<ValuationRecord>) {
         .select()
         .single();
 
-    if (error) throw error;
+    if (error) {
+        console.error('[createValuation] Error:', error);
+        showError('Failed to create valuation. Please check your data.');
+        throw error;
+    }
     return newValuation as ValuationRecord;
 }
 
@@ -68,7 +81,11 @@ export async function updateValuation(id: string, data: Partial<ValuationRecord>
         .select()
         .single();
 
-    if (error) throw error;
+    if (error) {
+        console.error('[updateValuation] Error:', error);
+        showError('Failed to update valuation. Please try again.');
+        throw error;
+    }
     return updatedValuation as ValuationRecord;
 }
 
@@ -85,7 +102,8 @@ export async function getUserValuations() {
         .order('created_at', { ascending: false });
 
     if (error) {
-        console.error('Error fetching valuations:', error);
+        console.error('[getUserValuations] Error:', error);
+        showError('Failed to load valuations. Please refresh the page.');
         return [];
     }
 

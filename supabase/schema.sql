@@ -17,10 +17,10 @@ create policy "Public profiles are viewable by everyone." on profiles
   for select using (true);
 
 create policy "Users can insert their own profile." on profiles
-  for insert with check ((select auth.uid()) = id);
+  for insert to authenticated with check (auth.uid() IS NOT NULL AND auth.uid() = id);
 
 create policy "Users can update own profile." on profiles
-  for update using ((select auth.uid()) = id);
+  for update to authenticated using (auth.uid() IS NOT NULL AND auth.uid() = id);
 
 -- Handle new user signup automatically
 create or replace function public.handle_new_user()
@@ -58,16 +58,16 @@ create table user_profiles (
 alter table user_profiles enable row level security;
 
 create policy "Users can view own profile." on user_profiles
-  for select using ((select auth.uid()) = user_id);
+  for select to authenticated using (auth.uid() IS NOT NULL AND auth.uid() = user_id);
 
 create policy "Users can insert own profile." on user_profiles
-  for insert with check ((select auth.uid()) = user_id);
+  for insert to authenticated with check (auth.uid() IS NOT NULL AND auth.uid() = user_id);
 
 create policy "Users can update own profile." on user_profiles
-  for update using ((select auth.uid()) = user_id);
+  for update to authenticated using (auth.uid() IS NOT NULL AND auth.uid() = user_id);
 
 create policy "Users can delete own profile." on user_profiles
-  for delete using ((select auth.uid()) = user_id);
+  for delete to authenticated using (auth.uid() IS NOT NULL AND auth.uid() = user_id);
 
 -- Trigger for user_profiles updated_at
 create trigger on_user_profile_updated
@@ -97,16 +97,16 @@ create table companies (
 alter table companies enable row level security;
 
 create policy "Users can view own company." on companies
-  for select using ((select auth.uid()) = user_id);
+  for select to authenticated using (auth.uid() IS NOT NULL AND auth.uid() = user_id);
 
 create policy "Users can insert own company." on companies
-  for insert with check ((select auth.uid()) = user_id);
+  for insert to authenticated with check (auth.uid() IS NOT NULL AND auth.uid() = user_id);
 
 create policy "Users can update own company." on companies
-  for update using ((select auth.uid()) = user_id);
+  for update to authenticated using (auth.uid() IS NOT NULL AND auth.uid() = user_id);
 
 create policy "Users can delete own company." on companies
-  for delete using ((select auth.uid()) = user_id);
+  for delete to authenticated using (auth.uid() IS NOT NULL AND auth.uid() = user_id);
 
 -- Trigger to update updated_at
 create or replace function public.handle_updated_at()
@@ -148,13 +148,13 @@ create table valuations (
 alter table valuations enable row level security;
 
 create policy "Users can view own valuations." on valuations
-  for select using ((select auth.uid()) = user_id);
+  for select to authenticated using (auth.uid() IS NOT NULL AND auth.uid() = user_id);
 
 create policy "Users can insert own valuations." on valuations
-  for insert with check ((select auth.uid()) = user_id);
+  for insert to authenticated with check (auth.uid() IS NOT NULL AND auth.uid() = user_id);
 
 create policy "Users can update own valuations." on valuations
-  for update using ((select auth.uid()) = user_id);
+  for update to authenticated using (auth.uid() IS NOT NULL AND auth.uid() = user_id);
 
 create policy "Users can delete own valuations." on valuations
-  for delete using ((select auth.uid()) = user_id);
+  for delete to authenticated using (auth.uid() IS NOT NULL AND auth.uid() = user_id);

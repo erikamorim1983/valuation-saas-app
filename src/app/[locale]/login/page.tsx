@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
-import Link from 'next/link';
+import { Logo } from '@/components/ui/Logo';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -62,9 +62,9 @@ export default function LoginPage() {
     return (
         <div className="flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8 bg-gray-50 dark:bg-black">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                <Link href="/" className="block text-center text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 mb-6">
-                    BrixAurea Valuation
-                </Link>
+                <div className="flex justify-center mb-6">
+                    <Logo href="/" size="md" />
+                </div>
                 <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 dark:text-white">
                     {isSignUp ? 'Criar sua conta' : 'Entrar na sua conta'}
                 </h2>

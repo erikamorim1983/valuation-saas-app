@@ -4,16 +4,19 @@ import { useWizard } from './WizardContext';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import { SUB_SECTORS, Sector } from '@/lib/valuation/types';
 
-// Simplified schema - only 'role' (Stage) is required for this step now
-// Static data comes from the profile
+// Schema with new fields: country and subSector
 const schema = z.object({
     role: z.enum(['idea', 'startup', 'operational', 'scaling']),
     currency: z.string(),
+    country: z.enum(['USA', 'BRL', 'MEX', 'ARG', 'CHL', 'COL']),
+    sector: z.string(),
+    subSector: z.string().min(1, 'Selecione um sub-setor')
 });
 
 type FormData = z.infer<typeof schema>;
@@ -21,15 +24,35 @@ type FormData = z.infer<typeof schema>;
 export default function StepIdentification() {
     const { data, updateData, setStep, saveDraft, isSaving } = useWizard();
     const t = useTranslations('Wizard');
-    const router = useRouter(); // Import useRouter at top level
+    const router = useRouter();
+    
+    // State for dynamic sub-sectors
+    const [availableSubSectors, setAvailableSubSectors] = useState<string[]>([]);
 
-    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+    const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<FormData>({
         resolver: zodResolver(schema),
         defaultValues: {
             role: data.role,
-            currency: data.currency
+            currency: data.currency,
+            country: data.country || 'USA',
+            sector: data.sector,
+            subSector: data.subSector
         }
     });
+    
+    // Watch sector changes to update sub-sectors dynamically
+    const watchedSector = watch('sector');
+    
+    useEffect(() => {
+        if (watchedSector && SUB_SECTORS[watchedSector as Sector]) {
+            setAvailableSubSectors(SUB_SECTORS[watchedSector as Sector]);
+            // Reset subSector if sector changed
+            const currentSubSector = watch('subSector');
+            if (!SUB_SECTORS[watchedSector as Sector].includes(currentSubSector)) {
+                setValue('subSector', SUB_SECTORS[watchedSector as Sector][0] || '');
+            }
+        }
+    }, [watchedSector, setValue, watch]);
 
     const onSubmit = (formData: FormData) => {
         updateData(formData);
@@ -111,7 +134,32 @@ export default function StepIdentification() {
                         Parâmetros do Valuation Atual
                     </h3>
 
-                    <div className="grid grid-cols-1 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Country Selection */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                País / Market
+                            </label>
+                            <select
+                                {...register('country')}
+                                className="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white sm:text-sm"
+                            >
+                                <option value="USA">🇺🇸 Estados Unidos (USA)</option>
+                                <option value="BRL">🇧🇷 Brasil (BRL)</option>
+                                <option value="MEX">🇲🇽 México (MEX)</option>
+                                <option value="ARG">🇦🇷 Argentina (ARG)</option>
+                                <option value="CHL">🇨🇱 Chile (CHL)</option>
+                                <option value="COL">🇨🇴 Colômbia (COL)</option>
+                            </select>
+                            {errors.country && (
+                                <p className="mt-1 text-xs text-red-600">{errors.country.message}</p>
+                            )}
+                            <p className="mt-2 text-xs text-gray-500">
+                                O país define os múltiplos de mercado e premiums de risco aplicados
+                            </p>
+                        </div>
+
+                        {/* Stage */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                 {t('fields.stage')}
@@ -126,7 +174,57 @@ export default function StepIdentification() {
                                 <option value="scaling">{t('stages.scaling')}</option>
                             </select>
                             <p className="mt-2 text-xs text-gray-500">
-                                O estágio define a metodologia e os riscos aplicados ao cálculo.
+                                O estágio define a metodologia e os riscos aplicados ao cálculo
+                            </p>
+                        </div>
+
+                        {/* Sector (Read-only from profile, but editable) */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Setor
+                            </label>
+                            <select
+                                {...register('sector')}
+                                className="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white sm:text-sm"
+                            >
+                                <option value="SaaS">SaaS</option>
+                                <option value="E-commerce">E-commerce</option>
+                                <option value="Fintech">Fintech</option>
+                                <option value="Marketplace">Marketplace</option>
+                                <option value="Agency">Agency</option>
+                                <option value="Edtech">Edtech</option>
+                                <option value="HealthTech">HealthTech</option>
+                                <option value="PropTech">PropTech</option>
+                                <option value="FoodTech">FoodTech</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <p className="mt-2 text-xs text-gray-500">
+                                Setor principal do negócio
+                            </p>
+                        </div>
+
+                        {/* Sub-Sector (Dynamic) */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Sub-Setor
+                            </label>
+                            <select
+                                {...register('subSector')}
+                                className="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white sm:text-sm"
+                            >
+                                {availableSubSectors.length > 0 ? (
+                                    availableSubSectors.map(sub => (
+                                        <option key={sub} value={sub}>{sub}</option>
+                                    ))
+                                ) : (
+                                    <option value="">Selecione um setor primeiro</option>
+                                )}
+                            </select>
+                            {errors.subSector && (
+                                <p className="mt-1 text-xs text-red-600">{errors.subSector.message}</p>
+                            )}
+                            <p className="mt-2 text-xs text-gray-500">
+                                Sub-setor específico define múltiplos de valuation precisos
                             </p>
                         </div>
 

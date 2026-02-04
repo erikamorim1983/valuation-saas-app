@@ -54,7 +54,9 @@
         "steps": {
             "identification": "Identificação",
             "financials": "Financeiro",
+            "revenueQuality": "Qualidade da Receita",
             "qualitative": "Qualitativo",
+            "moat": "Moat & Defensibilidade",
             "review": "Revisão"
         },
         "identification": {

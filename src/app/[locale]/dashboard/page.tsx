@@ -12,6 +12,10 @@ import jsPDF from 'jspdf';
 import { ReportView } from '@/components/valuation/ReportView';
 import { ScoreBar } from '@/components/dashboard/ScoreBar';
 import { BenchmarkingCard } from '@/components/dashboard/BenchmarkingCard';
+import { ImprovementPlanCard, ImprovementAction } from '@/components/dashboard/ImprovementPlanCard';
+import { getBenchmarkComparables } from '@/lib/valuation/benchmarking';
+import { generateImprovementPlan } from '@/lib/valuation/recommendations';
+import type { BusinessContext } from '@/lib/valuation/types';
 
 interface ValuationRecord {
     id: string;
@@ -41,8 +45,9 @@ export default function DashboardPage() {
     const draftValuations = valuations.filter(v => v.status === 'draft');
     const latestValuation = completedValuations[0];
 
-    // FETCH BENCHMARKS (Strategies A, C, D)
+    // FETCH BENCHMARKS AND IMPROVEMENTS
     const [benchData, setBenchData] = useState<any>(null);
+    const [improvementActions, setImprovementActions] = useState<ImprovementAction[]>([]);
 
     const downloadPDF = async () => {
         if (!latestValuation) return;
@@ -148,35 +153,102 @@ export default function DashboardPage() {
     }, [supabase, router]);
 
     useEffect(() => {
-        async function fetchBenchmarks() {
+        async function fetchBenchmarksAndImprovements() {
             if (!latestValuation) return;
 
             try {
-                // Strategy A & D: Fetch both from DB
-                const { data: marketData } = await supabase
-                    .from('market_benchmarks')
-                    .select('*')
-                    .eq('sector', latestValuation.sector)
-                    .single();
+                const financialData = latestValuation.financial_data as any;
+                const businessContext: BusinessContext = {
+                    country: financialData?.businessContext?.country || financialData?.country || 'USA',
+                    sector: latestValuation.sector as any,
+                    subSector: financialData?.subSector || financialData?.businessContext?.subSector || '',
+                    churnRate: financialData?.revenueQuality?.churnRate,
+                    nrr: financialData?.revenueQuality?.nrr,
+                    contractType: financialData?.revenueQuality?.contractType,
+                    ipType: financialData?.moat?.hasPatents ? 'patents-granted' : 
+                            financialData?.moat?.hasTradeSecrets ? 'trade-secret' : 'none',
+                    networkEffectStrength: financialData?.moat?.networkEffects || 'none',
+                    hasDataMoat: financialData?.moat?.hasProprietaryTech || false,
+                    hasCertifications: !!(
+                        financialData?.moat?.certifications?.soc2 ||
+                        financialData?.moat?.certifications?.iso27001 ||
+                        financialData?.moat?.certifications?.hipaa ||
+                        financialData?.moat?.certifications?.pciDss
+                    )
+                };
 
-                const { data: networkData } = await supabase
-                    .rpc('get_sector_benchmarks', { target_sector: latestValuation.sector });
+                // Fetch Benchmark Comparables
+                const comparables = await getBenchmarkComparables(
+                    businessContext.sector,
+                    businessContext.subSector,
+                    financialData?.revenue || 1000000
+                );
 
-                const userRevenue = (latestValuation.financial_data as any)?.revenue || 1;
-                const userVal = latestValuation.valuation_result?.partnerValuation?.value || 0;
+                const userRevenue = financialData?.revenue || 1;
+                const userVal = latestValuation.valuation_result?.advancedValuation?.value || 
+                               latestValuation.valuation_result?.partnerValuation?.value || 0;
+                const userMultiple = userRevenue > 0 ? userVal / userRevenue : 0;
+
+                // Calculate market average from comparables
+                const marketAvg = comparables.length > 0
+                    ? comparables.reduce((sum, c) => sum + c.valuationMultiple, 0) / comparables.length
+                    : 4.5;
 
                 setBenchData({
                     sector: latestValuation.sector,
-                    marketAvg: marketData?.revenue_multiple_avg || 4.5,
-                    userValue: userVal / userRevenue,
-                    networkAvg: networkData?.[0]?.avg_revenue_multiple || 3.8,
-                    similarCount: networkData?.[0]?.sample_size || 5
+                    marketAvg,
+                    userValue: userMultiple,
+                    comparables: comparables.map(c => ({
+                        name: c.name,
+                        sector: c.sector,
+                        revenue: c.revenue,
+                        multiple: c.valuationMultiple,
+                        similarity: c.similarityScore
+                    }))
                 });
+
+                // Generate Improvement Plan
+                const valuationResult = latestValuation.valuation_result?.advancedValuation || 
+                                       latestValuation.valuation_result?.partnerValuation;
+                
+                if (valuationResult) {
+                    const improvementPlan = await generateImprovementPlan(
+                        businessContext,
+                        {
+                            revenue: financialData?.revenue || 0,
+                            ebitda: financialData?.ebitda || 0,
+                            growthRate: financialData?.growthRate || 0,
+                            cash: financialData?.cash || 0,
+                            debt: financialData?.debt || 0
+                        },
+                        valuationResult.details?.score || 0.5
+                    );
+
+                    // Map improvement plan to UI format
+                    const actions: ImprovementAction[] = improvementPlan.recommendations.map((rec, idx) => ({
+                        id: `action-${idx}`,
+                        title: rec.title,
+                        description: rec.description,
+                        category: rec.category as any,
+                        impact: rec.impact as any,
+                        effort: rec.effort as any,
+                        estimatedROI: rec.estimatedROI,
+                        timeframe: rec.timeframe,
+                        priority: rec.priority,
+                        completed: false
+                    }));
+
+                    setImprovementActions(actions);
+                }
+
             } catch (e) {
-                console.error("Error fetching benchmarks", e);
+                console.error("Error fetching benchmarks and improvements", e);
             }
         }
-        if (latestValuation) fetchBenchmarks();
+        
+        if (latestValuation) {
+            fetchBenchmarksAndImprovements();
+        }
     }, [latestValuation, supabase]);
 
     const Card = ({ title, value, subtitle, prefix = '$' }: { title: string, value: number, subtitle?: string, prefix?: string }) => (
@@ -322,6 +394,23 @@ export default function DashboardPage() {
                             prefix=""
                             subtitle="/ 100 Pontos"
                         />
+                    </div>
+
+                    {/* Benchmarking and Improvement Plan Section */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        {/* Benchmarking Card */}
+                        {benchData && (
+                            <BenchmarkingCard data={benchData} />
+                        )}
+
+                        {/* Improvement Plan Card */}
+                        {improvementActions.length > 0 && (
+                            <ImprovementPlanCard 
+                                actions={improvementActions}
+                                currentValuation={result?.value || 0}
+                                currency={latestValuation.currency}
+                            />
+                        )}
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

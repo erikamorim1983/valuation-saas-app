@@ -1,15 +1,24 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { BarChart3, Users, Zap, Info } from 'lucide-react';
+import { BarChart3, Users, Zap, Info, TrendingUp, TrendingDown } from 'lucide-react';
 import { NumericFormat } from 'react-number-format';
+
+export interface BenchmarkComparable {
+    name: string;
+    sector: string;
+    revenue: number;
+    multiple: number;
+    similarity: number; // 0-100
+}
 
 interface BenchmarkData {
     sector: string;
     marketAvg: number;
     userValue: number;
-    networkAvg: number;
-    similarCount: number;
+    networkAvg?: number;
+    similarCount?: number;
+    comparables?: BenchmarkComparable[];
 }
 
 interface Props {
@@ -20,6 +29,7 @@ export function BenchmarkingCard({ data }: Props) {
     const t = useTranslations('Dashboard.benchmarks');
 
     const diff = ((data.userValue - data.marketAvg) / data.marketAvg) * 100;
+    const topComparables = data.comparables?.slice(0, 3) || [];
 
     return (
         <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm border border-gray-200 dark:border-zinc-800 p-6">
@@ -57,26 +67,48 @@ export function BenchmarkingCard({ data }: Props) {
                 </div>
 
                 {/* D. Network Effect (Our DB) */}
-                <div className="flex items-center gap-4 p-4 border border-gray-100 dark:border-zinc-800 rounded-xl">
-                    <div className="w-10 h-10 rounded-full bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
-                        <Users className="w-5 h-5" />
+                {data.networkAvg && (
+                    <div className="flex items-center gap-4 p-4 border border-gray-100 dark:border-zinc-800 rounded-xl">
+                        <div className="w-10 h-10 rounded-full bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                            <Users className="w-5 h-5" />
+                        </div>
+                        <div>
+                            <p className="text-xs text-gray-500">Média BrixAurea ({data.sector})</p>
+                            <p className="font-bold text-gray-900 dark:text-white">{data.networkAvg.toFixed(1)}x <span className="text-[10px] font-normal text-gray-400 ml-1">({data.similarCount || 0} empresas)</span></p>
+                        </div>
                     </div>
-                    <div>
-                        <p className="text-xs text-gray-500">Média BrixAurea ({data.sector})</p>
-                        <p className="font-bold text-gray-900 dark:text-white">{data.networkAvg}x <span className="text-[10px] font-normal text-gray-400 ml-1">({data.similarCount} empresas)</span></p>
-                    </div>
-                </div>
+                )}
 
-                {/* C. AI Similarity (AI Recommendation) */}
-                <div className="p-4 bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/10 dark:to-blue-900/10 rounded-xl border border-indigo-100 dark:border-indigo-900/30">
-                    <div className="flex items-center gap-2 mb-2">
-                        <Zap className="w-4 h-4 text-indigo-500 fill-indigo-500" />
-                        <span className="text-xs font-bold text-indigo-700 dark:text-indigo-300">Inteligência de Similaridade</span>
+                {/* Comparable Companies */}
+                {topComparables.length > 0 && (
+                    <div className="p-4 bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/10 dark:to-blue-900/10 rounded-xl border border-indigo-100 dark:border-indigo-900/30">
+                        <div className="flex items-center gap-2 mb-3">
+                            <Zap className="w-4 h-4 text-indigo-500 fill-indigo-500" />
+                            <span className="text-xs font-bold text-indigo-700 dark:text-indigo-300">Empresas Comparáveis</span>
+                        </div>
+                        <div className="space-y-2">
+                            {topComparables.map((comp, idx) => (
+                                <div key={idx} className="flex items-center justify-between text-sm">
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-xs text-gray-500">#{idx + 1}</span>
+                                        <span className="font-medium text-gray-700 dark:text-gray-300">{comp.name}</span>
+                                        <span className="text-xs bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 px-2 py-0.5 rounded">
+                                            {comp.similarity}% similar
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                        <span className="font-bold text-gray-900 dark:text-white">{comp.multiple.toFixed(1)}x</span>
+                                        {comp.multiple > data.marketAvg ? (
+                                            <TrendingUp className="w-3 h-3 text-green-500" />
+                                        ) : (
+                                            <TrendingDown className="w-3 h-3 text-red-500" />
+                                        )}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Encontramos <span className="font-bold text-indigo-600 dark:text-indigo-400">3 modelos</span> de negócios similares que foram adquiridos por múltiplos de <span className="font-bold">7.2x - 8x ARR</span>.
-                    </p>
-                </div>
+                )}
             </div>
         </div>
     );

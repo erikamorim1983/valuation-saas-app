@@ -1,4 +1,50 @@
 {
+    "Errors": {
+        "auth": {
+            "notAuthenticated": "You must be logged in to perform this action.",
+            "sessionExpired": "Your session has expired. Please log in again."
+        },
+        "valuation": {
+            "fetchFailed": "Failed to load valuations. Please try again.",
+            "createFailed": "Failed to create valuation. Please check your data.",
+            "updateFailed": "Failed to update valuation. Please try again.",
+            "deleteFailed": "Failed to delete valuation.",
+            "notFound": "Valuation not found."
+        },
+        "company": {
+            "fetchFailed": "Failed to load company data.",
+            "createFailed": "Failed to create company. Please check your information.",
+            "alreadyExists": "You already have a registered company. Upgrade your plan to add more.",
+            "updateFailed": "Failed to update company information."
+        },
+        "profile": {
+            "fetchFailed": "Failed to load profile data.",
+            "createFailed": "Failed to create profile. Please try again.",
+            "updateFailed": "Failed to update profile.",
+            "alreadyExists": "Profile already exists for this user.",
+            "onboardingFailed": "Failed to complete onboarding."
+        },
+        "generic": {
+            "unknownError": "An unexpected error occurred. Please try again.",
+            "networkError": "Network error. Please check your connection."
+        }
+    },
+    "Success": {
+        "valuation": {
+            "created": "Valuation created successfully!",
+            "updated": "Valuation updated successfully!",
+            "deleted": "Valuation deleted successfully!"
+        },
+        "company": {
+            "created": "Company registered successfully!",
+            "updated": "Company updated successfully!"
+        },
+        "profile": {
+            "created": "Profile created successfully!",
+            "updated": "Profile updated successfully!",
+            "onboardingCompleted": "Onboarding completed!"
+        }
+    },
     "Navbar": {
         "features": "Features",
         "methodology": "Methodology",
@@ -54,7 +100,9 @@
         "steps": {
             "identification": "Identification",
             "financials": "Financials",
+            "revenueQuality": "Revenue Quality",
             "qualitative": "Qualitative",
+            "moat": "Moat & Defensibility",
             "review": "Review"
         },
         "identification": {

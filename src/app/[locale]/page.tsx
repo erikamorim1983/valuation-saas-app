@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { useTranslations } from 'next-intl';
+import { Logo } from '@/components/ui/Logo';
 
 export default function Home() {
   const tHero = useTranslations('Hero');
@@ -25,6 +26,13 @@ export default function Home() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center w-full">
           <div className="mx-auto max-w-4xl">
+            {/* Logo Hero */}
+            <div className="flex justify-center mb-8">
+              <div className="bg-white/10 backdrop-blur-md px-8 py-6 rounded-2xl border border-white/20 shadow-2xl">
+                <Logo size="xl" variant="hero" animate={false} className="drop-shadow-[0_0_30px_rgba(255,255,255,0.8)] brightness-110" />
+              </div>
+            </div>
+            
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white tracking-tight leading-tight mb-8 drop-shadow-2xl">
               {tHero('title')}
             </h1>

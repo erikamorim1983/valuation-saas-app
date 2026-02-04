@@ -1,9 +1,9 @@
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useCallback, useRef, useEffect } from 'react';
 import { FinancialData } from '@/lib/valuation/types';
 
-export type WizardStep = 'identification' | 'financials' | 'qualitative' | 'review';
+export type WizardStep = 'identification' | 'financials' | 'revenueQuality' | 'qualitative' | 'moat' | 'review';
 
 export type CompanyStage = 'idea' | 'startup' | 'operational' | 'scaling';
 
@@ -16,7 +16,12 @@ export interface WizardData {
     sector: string;
     subSector: string; // Added subSector
     currency: string;
+    
+    // NEW: Geographic & Market Context
+    country?: 'USA' | 'BRL' | 'MEX' | 'ARG' | 'CHL' | 'COL';
+    
     financials: Partial<FinancialData>;
+    
     qualitative: {
         // Ops
         hasSOPs: 'full' | 'partial' | 'none';
@@ -40,6 +45,34 @@ export interface WizardData {
         hasAutoReconciliation: boolean;
         hasFinancialPlan: boolean;
     };
+    
+    // NEW: Revenue Quality Metrics (for SaaS)
+    revenueQuality?: {
+        churnRate?: number; // % monthly churn (0-30)
+        nrr?: number; // Net Revenue Retention % (80-150)
+        ltvCacRatio?: number; // LTV/CAC ratio (1-10)
+        contractType?: 'monthly' | 'annual' | 'multi-year';
+    };
+    
+    // NEW: Moat & Defensibility
+    moat?: {
+        // Intellectual Property
+        hasPatents?: boolean;
+        hasTradeSecrets?: boolean;
+        hasProprietaryTech?: boolean;
+        
+        // Market Position
+        networkEffects?: 'none' | 'weak' | 'strong';
+        switchingCosts?: 'low' | 'medium' | 'high';
+        
+        // Certifications
+        certifications?: {
+            soc2?: boolean;
+            iso27001?: boolean;
+            hipaa?: boolean;
+            pciDss?: boolean;
+        };
+    };
 }
 
 interface WizardContextType {
@@ -62,6 +95,7 @@ const defaultData: WizardData = {
     sector: 'SaaS',
     subSector: 'B2B', // Default subSector
     currency: 'USD',
+    country: 'USA', // Default country
     financials: {},
     qualitative: {
         hasSOPs: 'none',
@@ -77,8 +111,30 @@ const defaultData: WizardData = {
         hasPaymentWorkflow: false,
         hasAutoReconciliation: false,
         hasFinancialPlan: false
+    },
+    revenueQuality: {
+        churnRate: undefined,
+        nrr: undefined,
+        ltvCacRatio: undefined,
+        contractType: undefined
+    },
+    moat: {
+        hasPatents: false,
+        hasTradeSecrets: false,
+        hasProprietaryTech: false,
+        networkEffects: 'none',
+        switchingCosts: 'low',
+        certifications: {
+            soc2: false,
+            iso27001: false,
+            hipaa: false,
+            pciDss: false
+        }
     }
 };
+
+const STORAGE_KEY = 'brixaurea_wizard_draft';
+const AUTOSAVE_DELAY = 500; // milliseconds
 
 const WizardContext = createContext<WizardContextType | undefined>(undefined);
 
@@ -92,10 +148,26 @@ export function WizardProvider({ children, initialData, initialValuationId }: { 
     const [isLoading, setIsLoading] = useState(true);
     const [companyProfile, setCompanyProfile] = useState<any | null>(null);
 
+    // Auto-save refs
+    const autoSaveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const isInitialMount = useRef(true);
+
     // Load Company Profile from Supabase on Mount
-    React.useEffect(() => {
+    useEffect(() => {
         const loadProfile = async () => {
             try {
+                // Try to recover from localStorage first
+                const savedDraft = localStorage.getItem(STORAGE_KEY);
+                if (savedDraft && !initialData) {
+                    try {
+                        const parsed = JSON.parse(savedDraft);
+                        setData(parsed);
+                        console.log('✅ Recovered wizard data from localStorage');
+                    } catch (e) {
+                        console.warn('⚠️ Failed to parse saved draft:', e);
+                    }
+                }
+
                 // Dynamically import to avoid server-side issues if any
                 const { getUserCompany } = await import('@/lib/supabase/company');
                 const company = await getUserCompany();
@@ -104,7 +176,7 @@ export function WizardProvider({ children, initialData, initialValuationId }: { 
                     setCompanyProfile(company);
                     // Pre-fill wizard data ONLY if we are starting fresh (no valuationId)
                     // If we are editing, we load that data elsewhere (TODO: Implement loadValuation)
-                    if (!valuationId) {
+                    if (!valuationId && !savedDraft) {
                         setData(prev => ({
                             ...prev,
                             companyName: company.name,
@@ -120,16 +192,48 @@ export function WizardProvider({ children, initialData, initialValuationId }: { 
                 console.error("Failed to load company profile:", err);
             } finally {
                 setIsLoading(false);
+                isInitialMount.current = false;
             }
         };
         loadProfile();
-    }, [valuationId]);
+    }, [valuationId, initialData]);
 
-    const updateData = (newData: Partial<WizardData>) => {
+    // Auto-save to localStorage with debounce
+    useEffect(() => {
+        // Skip auto-save on initial mount
+        if (isInitialMount.current) return;
+
+        // Clear existing timeout
+        if (autoSaveTimeoutRef.current) {
+            clearTimeout(autoSaveTimeoutRef.current);
+        }
+
+        // Set new timeout for debounced save
+        autoSaveTimeoutRef.current = setTimeout(() => {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                console.log('💾 Auto-saved wizard data to localStorage');
+            } catch (e) {
+                console.error('❌ Failed to auto-save:', e);
+            }
+        }, AUTOSAVE_DELAY);
+
+        // Cleanup timeout on unmount
+        return () => {
+            if (autoSaveTimeoutRef.current) {
+                clearTimeout(autoSaveTimeoutRef.current);
+            }
+        };
+    }, [data]);
+
+    const updateData = useCallback((newData: Partial<WizardData>) => {
         setData(prev => ({ ...prev, ...newData }));
-    };
+    }, []);
 
-    const resetWizard = () => {
+    const resetWizard = useCallback(() => {
+        // Clear localStorage
+        localStorage.removeItem(STORAGE_KEY);
+        
         setValuationId(null);
         setData(prev => ({
             ...defaultData,
@@ -142,7 +246,7 @@ export function WizardProvider({ children, initialData, initialValuationId }: { 
             subSector: companyProfile?.sub_industry || ''
         }));
         setStep('identification');
-    }
+    }, [companyProfile]);
 
     const saveDraft = async () => {
         setIsSaving(true);

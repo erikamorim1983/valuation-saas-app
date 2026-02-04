@@ -11,7 +11,8 @@ import {
     ValuationParams,
     Sector
 } from '@/lib/valuation';
-import { calculatePartnerValuation as engine } from '@/lib/valuation/engines/partnerMethod'; // Direct import used for now if index not updated
+import { calculateAdvancedValuation } from '@/lib/valuation/engines/advancedEngine';
+import { BusinessContext, Country } from '@/lib/valuation/types';
 
 export default function StepReview() {
     const { data, setStep, valuationId } = useWizard();
@@ -23,9 +24,7 @@ export default function StepReview() {
     const handleFinish = async () => {
         setLoading(true);
         try {
-            // 1. Calculate Results Locally
-            // 1. Calculate Results Locally
-            // Map WizardData to FinancialData
+            // 1. Prepare Financial Data
             const financials: FinancialData = {
                 currency: data.currency as any,
                 history: data.financials.history || [],
@@ -33,8 +32,6 @@ export default function StepReview() {
                 projectedRevenueYear1: data.financials.projectedRevenueYear1,
                 cash: data.financials.cash || 0,
                 debt: data.financials.debt || 0,
-
-                // Legacy / Computed (using last year if available)
                 revenue: data.financials.revenue || 0,
                 ebitda: data.financials.ebitda || 0,
                 netIncome: data.financials.netIncome || 0,
@@ -43,16 +40,42 @@ export default function StepReview() {
                 growthRate: data.financials.growthRate || 0
             };
 
+            // 2. Prepare Business Context (NEW)
+            const businessContext: BusinessContext = {
+                country: (data.country || 'USA') as Country,
+                sector: data.sector as Sector,
+                subSector: data.subSector || '',
+                
+                // Revenue Quality (from new step)
+                churnRate: data.revenueQuality?.churnRate,
+                nrr: data.revenueQuality?.nrr,
+                cac: undefined, // Could be calculated from financials
+                ltv: undefined,
+                contractType: data.revenueQuality?.contractType,
+                
+                // Moat (from new step)
+                ipType: data.moat?.hasPatents ? 'patents-granted' : 
+                        data.moat?.hasTradeSecrets ? 'trade-secret' : 'none',
+                networkEffectStrength: data.moat?.networkEffects === 'strong' ? 'strong' :
+                                      data.moat?.networkEffects === 'weak' ? 'weak' : 'none',
+                hasDataMoat: data.moat?.hasProprietaryTech || false,
+                hasCertifications: !!(
+                    data.moat?.certifications?.soc2 ||
+                    data.moat?.certifications?.iso27001 ||
+                    data.moat?.certifications?.hipaa ||
+                    data.moat?.certifications?.pciDss
+                )
+            };
+
+            // 3. Prepare Valuation Params
             const params: ValuationParams = {
                 sector: data.sector as Sector,
                 riskFreeRate: 0.04,
                 equityRiskPremium: 0.05,
-                companySpecificRisk: 0, // Not used in new engine
+                companySpecificRisk: 0,
                 taxRate: 0.21,
                 termYears: 5,
                 terminalGrowthRate: 0.03,
-
-                // New Qualitative Inputs
                 qualitative: {
                     hasSOPs: data.qualitative.hasSOPs,
                     ownerAutonomyScore: data.qualitative.ownerAutonomyScore,
@@ -70,14 +93,20 @@ export default function StepReview() {
                 }
             };
 
-            // Call the Advanced Engine
-            const partnerValuation = engine(financials, params);
+            // 4. Call ADVANCED ENGINE with new parameters
+            const advancedValuation = await calculateAdvancedValuation(
+                financials,
+                params,
+                businessContext
+            );
 
             const finalResult = {
-                partnerValuation
+                advancedValuation,
+                // Keep legacy for backwards compatibility
+                partnerValuation: advancedValuation
             };
 
-            // 2. Save to Supabase (Create or Update)
+            // 5. Save to Supabase
             const { data: { user } } = await supabase.auth.getUser();
 
             if (!user) {
@@ -88,12 +117,20 @@ export default function StepReview() {
 
             const { createValuation, updateValuation } = await import('@/lib/supabase/valuation');
 
-            // Prepare Payload
             const payload = {
                 company_name: data.companyName,
                 sector: data.sector,
                 currency: data.currency,
-                financial_data: financials as any, // Cast for flexibility
+                financial_data: {
+                    ...financials,
+                    // Store additional context for future edits
+                    businessContext,
+                    qualitative: data.qualitative,
+                    revenueQuality: data.revenueQuality,
+                    moat: data.moat,
+                    country: data.country,
+                    subSector: data.subSector
+                } as any,
                 valuation_result: finalResult as any,
                 status: 'completed' as const
             };
@@ -102,10 +139,9 @@ export default function StepReview() {
                 await updateValuation(valuationId, payload);
             } else {
                 await createValuation(payload);
-                // We don't necessarily need to set the ID here as we are redirecting away
             }
 
-            // 3. Redirect to Dashboard/Report
+            // 6. Redirect to Dashboard
             router.push('/dashboard');
 
         } catch (err: any) {
@@ -131,7 +167,7 @@ export default function StepReview() {
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                     {t('review.title')}
                 </h2>
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">moat
                     {t('review.subtitle')}
                 </p>
             </div>

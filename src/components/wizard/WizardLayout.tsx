@@ -3,7 +3,7 @@
 import { useWizard, WizardStep } from './WizardContext';
 import { useTranslations } from 'next-intl';
 
-const steps: WizardStep[] = ['identification', 'financials', 'qualitative', 'review'];
+const steps: WizardStep[] = ['identification', 'financials', 'revenueQuality', 'qualitative', 'moat', 'review'];
 
 export function WizardLayout({ children }: { children: React.ReactNode }) {
     const { step } = useWizard();

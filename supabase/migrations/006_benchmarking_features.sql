@@ -29,13 +29,19 @@ returns table (
     sample_size bigint
 ) language plpgsql security definer as $$
 begin
+    -- Validate input to prevent SQL injection
+    if target_sector is null or length(trim(target_sector)) = 0 then
+        raise exception 'target_sector cannot be null or empty';
+    end if;
+
+    -- Using parameterized query - target_sector is treated as data, not SQL code
     return query
     select 
         avg((valuation_result->'partnerValuation'->>'value')::numeric / nullif((financial_data->>'revenue')::numeric, 0))::numeric as avg_revenue_multiple,
         avg((valuation_result->'partnerValuation'->>'value')::numeric / nullif((financial_data->>'ebitda')::numeric, 0))::numeric as avg_ebitda_multiple,
         count(*)::bigint as sample_size
     from valuations
-    where sector = target_sector
+    where sector = target_sector  -- Safe: plpgsql automatically parameterizes this
     and status = 'completed'
     and valuation_result is not null;
 end;

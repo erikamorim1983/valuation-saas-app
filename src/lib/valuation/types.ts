@@ -1,4 +1,16 @@
-export type Currency = 'USD' | 'BRL' | 'EUR';
+export type Currency = 'USD' | 'BRL' | 'EUR' | 'MXN' | 'ARS' | 'CLP' | 'COP';
+
+export type Country = 'USA' | 'BRL' | 'MEX' | 'ARG' | 'CHL' | 'COL' | 'OTHER';
+
+export type SizeBracket = 'micro' | 'small' | 'mid' | 'growth' | 'scale';
+
+export type GeographicScope = 'local' | 'national' | 'regional' | 'global';
+
+export type CustomerType = 'smb' | 'mid-market' | 'enterprise' | 'consumer';
+
+export type IPType = 'none' | 'trade-secret' | 'patents-pending' | 'patents-granted';
+
+export type NetworkEffectStrength = 'none' | 'weak' | 'moderate' | 'strong';
 
 export interface YearlyFinancials {
     year: number;
@@ -50,7 +62,128 @@ export type Sector =
     | 'Marketplace'
     | 'Fintech'
     | 'Edtech'
+    | 'HealthTech'
+    | 'PropTech'
+    | 'FoodTech'
     | 'Other';
+
+// Sub-sector mappings for detailed categorization
+export const SUB_SECTORS: Record<Sector, string[]> = {
+    'SaaS': [
+        'AI/ML',
+        'Vertical - Healthcare',
+        'Vertical - Finance/Accounting',
+        'Vertical - Real Estate',
+        'Vertical - Legal',
+        'Horizontal - CRM/Sales',
+        'Horizontal - HR/Recruiting',
+        'Horizontal - Marketing',
+        'Horizontal - Productivity',
+        'DevTools/Infrastructure',
+        'Security/Compliance',
+        'Legacy/On-Premise'
+    ],
+    'E-commerce': [
+        'D2C - Beauty/Cosmetics',
+        'D2C - Fashion/Apparel',
+        'D2C - Electronics',
+        'D2C - Home/Furniture',
+        'D2C - Food/Beverage',
+        'B2B - Wholesale',
+        'Dropshipping',
+        'Marketplace - Multi-vendor'
+    ],
+    'Fintech': [
+        'Payments/PSP',
+        'Lending/Credit',
+        'Banking/Neobank',
+        'Wealth Management/Investment',
+        'Insurance/Insurtech',
+        'Crypto/Blockchain Infrastructure',
+        'Accounting/Tax Software'
+    ],
+    'Marketplace': [
+        'Services - Freelance/Gig',
+        'Services - Professional (lawyers, doctors)',
+        'Goods - C2C (used items)',
+        'Goods - B2C',
+        'Real Estate',
+        'Travel/Hospitality'
+    ],
+    'Agency': [
+        'Marketing/Advertising',
+        'Web Development',
+        'Design/Creative',
+        'SEO/Performance Marketing',
+        'Consulting/Strategy',
+        'Staffing/Recruiting'
+    ],
+    'Edtech': [
+        'K-12 Education',
+        'Higher Education',
+        'Corporate Training',
+        'Language Learning',
+        'Skills/Bootcamps',
+        'Test Prep'
+    ],
+    'HealthTech': [
+        'Telemedicine',
+        'Health Records/EHR',
+        'Mental Health',
+        'Fitness/Wellness',
+        'Medical Devices',
+        'Pharma/Biotech Software'
+    ],
+    'PropTech': [
+        'Property Management',
+        'Real Estate CRM',
+        'Construction Tech',
+        'Smart Buildings/IoT',
+        'Rental/Leasing Platforms'
+    ],
+    'FoodTech': [
+        'Food Delivery',
+        'Restaurant Tech/POS',
+        'Cloud Kitchen',
+        'Food Production',
+        'Agritech'
+    ],
+    'Other': ['General Business', 'Manufacturing', 'Retail', 'Services', 'Media/Entertainment']
+};
+
+export interface BusinessContext {
+    // Geographic
+    country: Country;
+    geographicScope?: GeographicScope;
+    
+    // Classification
+    sector: Sector;
+    subSector: string;
+    businessModel?: string;
+    
+    // Size (auto-calculated from revenue)
+    sizeBracket?: SizeBracket;
+    
+    // Revenue Quality (SaaS/Subscription specific)
+    churnRate?: number;                    // Annual churn %
+    nrr?: number;                          // Net Revenue Retention %
+    ltv?: number;                          // Lifetime Value ($)
+    cac?: number;                          // Customer Acquisition Cost ($)
+    cacPaybackMonths?: number;
+    contractType?: 'monthly' | 'annual' | 'multi-year';
+    
+    // Customer Profile
+    customerType?: CustomerType;
+    averageContractValue?: number;         // ACV for B2B
+    
+    // Moat/Defensibility
+    ipType?: IPType;
+    networkEffectStrength?: NetworkEffectStrength;
+    switchingCostEstimate?: number;        // Estimated $ cost for customer to switch
+    hasDataMoat?: boolean;
+    hasDeepIntegration?: boolean;          // Deep integration with customer systems
+    hasCertifications?: boolean;           // SOC2, HIPAA, ISO, etc
+}
 
 export interface ValuationParams {
     sector: Sector;
@@ -108,4 +241,147 @@ export interface ValuationResult {
         };
         details?: Record<string, any>;
     };
+}
+// ================================================================
+// BENCHMARKING & RECOMMENDATIONS
+// ================================================================
+
+export interface BenchmarkCompany {
+    id: string;
+    companyName: string;
+    country: Country;
+    sector: Sector;
+    subSector: string;
+    stage: string;
+    sizeBracket: SizeBracket;
+    
+    // Metrics
+    annualRevenue: number;
+    ebitda?: number;
+    ebitdaMargin?: number;
+    growthRate?: number;
+    
+    // SaaS specific
+    arr?: number;
+    nrr?: number;
+    churnRate?: number;
+    ltvcacRatio?: number;
+    cacPaybackMonths?: number;
+    
+    // Valuation
+    lastValuation?: number;
+    valuationDate?: string;
+    valuationMultiple?: number;
+    valuationType?: string;
+    
+    // Context
+    description?: string;
+    whyReference?: string;
+    website?: string;
+}
+
+export interface BenchmarkComparison {
+    userCompany: {
+        name: string;
+        multiple: number;
+        growthRate: number;
+        ebitdaMargin: number;
+        qualityScore: number;
+        // SaaS metrics
+        churnRate?: number;
+        nrr?: number;
+        ltvcacRatio?: number;
+    };
+    
+    benchmarks: BenchmarkCompany[];
+    
+    // Calculated comparisons
+    multiplePercentile: number;           // Where user sits (0-100)
+    growthPercentile: number;
+    qualityPercentile: number;
+    
+    // Gaps
+    multipleGap: number;                  // Difference to median benchmark
+    growthGap: number;
+    qualityGap: number;
+}
+
+export interface ImprovementAction {
+    id: string;
+    category: 'operations' | 'revenue_quality' | 'moat' | 'team' | 'financial' | 'growth';
+    title: string;
+    description: string;
+    
+    // Impact
+    pillarImpact?: string;                // Which pillar: ops, rec, conc, grow, risk
+    expectedScoreIncrease: number;        // Points increase (0-100 scale)
+    valuationImpactPercent: number;       // % impact on valuation
+    
+    // Implementation
+    difficulty: 'easy' | 'moderate' | 'hard' | 'very_hard';
+    timeToImplement: string;              // "1-2 weeks", "1-3 months", etc
+    estimatedCostUSD?: number;
+    
+    // Calculated for user
+    calculatedPriority?: number;          // 0-100 based on user gaps
+    potentialValuationIncrease?: number;  // $ amount for this user
+}
+
+export interface ImprovementPlan {
+    valuationId: string;
+    currentValuation: number;
+    targetValuation: number;
+    
+    // Prioritized actions
+    actions: ImprovementAction[];
+    
+    // Summary
+    totalPotentialIncrease: number;
+    quickWins: ImprovementAction[];       // Easy + high impact
+    strategicActions: ImprovementAction[]; // Hard but very high impact
+    
+    // Timeline
+    estimatedTimeToTarget: string;        // "3-6 months", "6-12 months"
+}
+
+// ================================================================
+// COUNTRY & SIZE DATA
+// ================================================================
+
+export interface CountryRiskData {
+    country: Country;
+    countryName: string;
+    equityRiskPremium: number;            // %
+    countryRiskPremium: number;           // % vs USA
+    liquidityDiscount: number;            // % discount
+    exitDiscount: number;                 // % discount
+    riskFreeRate: number;                 // 10Y bond
+    inflationRate?: number;
+    gdpGrowthRate?: number;
+}
+
+export interface SizePremiumData {
+    country: Country;
+    sizeBracket: SizeBracket;
+    revenueMin: number;
+    revenueMax: number;
+    waccPremium: number;                  // % added to WACC
+    multipleDiscount: number;             // % discount on multiple
+}
+
+export interface ValuationMultiples {
+    country: Country;
+    sector: Sector;
+    subSector: string;
+    sizeBracket: SizeBracket;
+    
+    // Multiples
+    revenueMultiple: { low: number; median: number; high: number };
+    ebitdaMultiple: { low: number; median: number; high: number };
+    
+    // Quality metrics
+    sampleSize: number;
+    confidenceScore: number;              // 0-1
+    source: string;
+    lastUpdated: string;
 }

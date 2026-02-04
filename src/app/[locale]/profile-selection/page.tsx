@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { createUserProfile } from '@/lib/supabase/userProfile';
 import { createClient } from '@/lib/supabase/client';
 import { useState, useEffect } from 'react';
+import { Logo } from '@/components/ui/Logo';
 
 export default function ProfileSelectionPage() {
     const router = useRouter();
@@ -84,6 +85,9 @@ export default function ProfileSelectionPage() {
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-green-50 dark:from-zinc-900 dark:via-black dark:to-zinc-900 py-12 px-4">
             <div className="max-w-5xl w-full">
                 <div className="text-center mb-12">
+                    <div className="flex justify-center mb-8">
+                        <Logo href={`/${locale}`} size="lg" />
+                    </div>
                     <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-4">
                         {t('welcome')}
                     </h1>
